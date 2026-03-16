@@ -921,6 +921,123 @@
     @page { margin: 15mm; }
   }
 
+
+  /* ═══════════════════════════════════════════════════════════
+     COMPREHENSIVE RESPONSIVE — auto-adjust for all screen sizes
+     Covers: result page, exam cards, editor, dashboard, modals
+  ═══════════════════════════════════════════════════════════ */
+
+  /* ── Result page: 4-column section cards ── */
+  .result-sec-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+  @media(max-width:700px) { .result-sec-grid { grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:380px) { .result-sec-grid { grid-template-columns:1fr 1fr; gap:8px; } }
+
+  /* ── Student info 3-col grid ── */
+  .student-info-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  @media(max-width:600px) { .student-info-grid { grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:380px) { .student-info-grid { grid-template-columns:1fr; } }
+
+  /* ── Answer review option grid ── */
+  .opts-review-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  @media(max-width:480px) { .opts-review-grid { grid-template-columns:1fr; } }
+
+  /* ── Stats/analytics 4-col ── */
+  @media(max-width:700px) { .stats-grid { grid-template-columns:repeat(2,1fr) !important; } }
+  @media(max-width:400px) { .stats-grid { grid-template-columns:1fr !important; } }
+
+  /* ── Question editor header buttons wrap on small screens ── */
+  @media(max-width:768px) {
+    .dash-layout { grid-template-columns:1fr !important; }
+    .dash-sidebar { display:none !important; }
+    .dash-main { padding:12px !important; }
+  }
+
+  /* ── Section score cards inline (result hero) ── */
+  @media(max-width:540px) {
+    .sec-score-row { grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
+  }
+  @media(max-width:300px) {
+    .sec-score-row { grid-template-columns:1fr !important; }
+  }
+
+  /* ── Exam layout on small screens ── */
+  @media(max-width:640px) {
+    .exam-layout { grid-template-columns:1fr !important; }
+    .nav-panel { display:none !important; }
+    .main-container { padding:12px 10px !important; }
+  }
+
+  /* ── Modal full-screen on small phones ── */
+  @media(max-width:480px) {
+    .modal { max-width:100% !important; border-radius:16px 16px 0 0 !important; margin:auto 0 0 !important; width:100% !important; }
+    .modal-overlay { align-items:flex-end !important; }
+  }
+
+  /* ── Result hero buttons wrap ── */
+  @media(max-width:500px) {
+    .result-hero-btns { flex-direction:column !important; align-items:stretch !important; }
+    .result-hero-btns button { width:100% !important; }
+  }
+
+  /* ── Bottom action buttons ── */
+  @media(max-width:500px) {
+    .result-bottom-btns { flex-direction:column !important; align-items:stretch !important; }
+    .result-bottom-btns button { width:100% !important; }
+  }
+
+  /* ── Section tabs scroll on mobile ── */
+  #section-tabs { overflow-x:auto !important; -webkit-overflow-scrolling:touch; }
+
+  /* ── Q&A report download button responsive ── */
+  @media(max-width:600px) {
+    .btn-sm { font-size:.72rem !important; padding:6px 10px !important; }
+  }
+
+  /* ── Std selector grid in editor ── */
+  @media(max-width:500px) {
+    .std-selector-grid { grid-template-columns:repeat(2,1fr) !important; }
+    .std-mini-grid     { grid-template-columns:repeat(2,1fr) !important; }
+  }
+
+  /* ── Settings cards padding on mobile ── */
+  @media(max-width:480px) {
+    [style*="padding:18px 20px"] { padding:12px 14px !important; }
+    [style*="padding:20px"]      { padding:12px !important; }
+    [style*="grid-template-columns:1fr 1fr"] { grid-template-columns:1fr !important; }
+  }
+
+  /* ── Paper library / upload cards ── */
+  @media(max-width:600px) {
+    .std-grid { grid-template-columns:1fr !important; }
+  }
+
+  /* ── Registration form ── */
+  @media(max-width:500px) {
+    .form-grid { grid-template-columns:1fr !important; }
+    .reg-pattern-grid { grid-template-columns:repeat(2,1fr) !important; }
+  }
+
+  /* ── Make result section score cards responsive via JS-generated inline styles ── */
+  @media(max-width:640px) {
+    #result-full-body [style*="grid-template-columns:repeat(4,1fr)"] {
+      grid-template-columns: repeat(2,1fr) !important;
+    }
+    #result-full-body [style*="grid-template-columns:repeat(3,1fr)"] {
+      grid-template-columns: repeat(2,1fr) !important;
+    }
+    #result-full-body [style*="display:flex"][style*="gap:10px"] button {
+      flex:1 1 auto;
+    }
+  }
+  @media(max-width:400px) {
+    #result-full-body [style*="grid-template-columns:repeat(4,1fr)"] {
+      grid-template-columns: 1fr 1fr !important;
+    }
+    #result-full-body [style*="grid-template-columns:repeat(3,1fr)"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
   /* INPUT VALIDATION ERROR STATES */
   .field-error input, .field-error select {
     border-color: var(--danger) !important;
@@ -1903,8 +2020,97 @@
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyaLsGQaYcdackZ1udj0fD0mEe5Zp1oLQH1AyMLUMS5GaMlrRRhQjk_jJtLeeYUBENo/exec";
 // Dynamic URL: checks localStorage first (set via Settings page), then falls back to constant above
 function getSheetUrl() {
-  return localStorage.getItem('ict_sheets_url') || GOOGLE_SHEET_URL;
+  const saved = localStorage.getItem('ict_sheets_url');
+  // Bootstrap: if nothing saved yet, persist the default URL so the card state is consistent
+  if (!saved) {
+    localStorage.setItem('ict_sheets_url', GOOGLE_SHEET_URL);
+    return GOOGLE_SHEET_URL;
+  }
+  return saved;
 }
+
+// ============================================================
+// GOOGLE SHEETS QUESTION BANK SYNC
+// Uses the SAME Apps Script Web App URL already configured for
+// results. Adds two new actions:
+//   doPost  action:'saveQuestions'  → saves banks JSON to hidden sheet
+//   doGet   action:'getQuestions'   → returns banks JSON (public read)
+//
+// HOW IT WORKS:
+//   Teacher adds/edits questions → auto-pushed to Sheets silently
+//   Every device loads page     → auto-pulls latest banks from Sheets
+//   No extra setup — same URL, same script (just update the script)
+// ============================================================
+
+// ── Push question banks TO Sheets ───────────────────────────
+async function sheetsPushQuestions(silent) {
+  const url = getSheetUrl();
+  if (!url || url === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') return;
+  if (!localStorage.getItem('ict_sheets_verified')) return; // only push if connected
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors',
+      body: JSON.stringify({
+        action: 'saveQuestions',
+        banks: STD_QUESTION_BANKS,
+        examControl: EXAM_CONTROL,
+        savedAt: new Date().toISOString()
+      })
+    });
+    localStorage.setItem('ict_qsync_last_push', new Date().toISOString());
+    if (!silent) showToast('☁️ Questions saved to Google Sheet!', 'linear-gradient(135deg,#1b5e20,#2e7d32)');
+  } catch(e) {
+    if (!silent) showToast('⚠️ Question sync failed: ' + e.message, '#ff6f00');
+  }
+}
+
+// ── Pull question banks FROM Sheets ─────────────────────────
+// Uses doGet — publicly readable, no auth, works on ALL devices
+async function sheetsPullQuestions(silent) {
+  const url = getSheetUrl();
+  if (!url || url === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') return false;
+  try {
+    const r = await fetch(url + '?action=getQuestions', { method: 'GET', cache: 'no-store' });
+    if (!r.ok) return false;
+    const data = await r.json();
+    if (data && data.banks) {
+      STD_QUESTION_BANKS = data.banks;
+      localStorage.setItem('ict_std_banks', JSON.stringify(data.banks));
+      if (data.examControl) {
+        EXAM_CONTROL = data.examControl;
+        localStorage.setItem('ict_exam_control', JSON.stringify(data.examControl));
+      }
+      localStorage.setItem('ict_qsync_last_pull', new Date().toISOString());
+      if (!silent) showToast('☁️ Questions synced from Google Sheet!', 'linear-gradient(135deg,#00838f,#00acc1)');
+      return true;
+    }
+    return false;
+  } catch(e) {
+    // Network error or script not updated yet — silently fall through to localStorage
+    return false;
+  }
+}
+
+// ── Manual pull trigger from Settings ───────────────────────
+async function sheetsPullManual() {
+  const btn = document.getElementById('qsync-pull-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Pulling…'; }
+  const ok = await sheetsPullQuestions(false);
+  if (ok && typeof renderQuestionEditor === 'function') renderQuestionEditor();
+  if (btn) { btn.disabled = false; btn.textContent = '⬇️ Pull Questions Now'; }
+}
+
+// ── Manual push trigger from Settings ───────────────────────
+async function sheetsPushManual() {
+  const btn = document.getElementById('qsync-push-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Pushing…'; }
+  await sheetsPushQuestions(false);
+  if (btn) { btn.disabled = false; btn.textContent = '⬆️ Push Questions Now'; }
+}
+
+
 // Instructions to set up:
 // 1. Go to script.google.com
 // 2. Create new project, paste the Apps Script code below
@@ -1935,372 +2141,407 @@ function doGet(e) {
 // Structure: STD_QUESTION_BANKS['V'] = { mcq:[], trueFalse:[], match:[], answer:[] }
 // EXAM_CONTROL['V'] = { active: true/false, uploadedAt: null, uploadedBy: null }
 
-const DEFAULT_QB = {
-  mcq: [
-    { q: "What does CPU stand for?", opts: ["Central Processing Unit","Computer Personal Use","Central Program Unit","Control Processing Unit"], ans: 0 },
-    { q: "Which device is used to input data into a computer?", opts: ["Monitor","Printer","Keyboard","Speaker"], ans: 2 },
-    { q: "What is the full form of WWW?", opts: ["World Wide Web","World Wide Wire","World Web Window","Web Wide World"], ans: 0 },
-    { q: "Which of the following is an output device?", opts: ["Keyboard","Mouse","Monitor","Scanner"], ans: 2 },
-    { q: "What does RAM stand for?", opts: ["Random Access Memory","Read Access Memory","Random Application Memory","Read Application Memory"], ans: 0 },
-    { q: "Which key is used to delete text to the left of the cursor?", opts: ["Delete","End","Backspace","Escape"], ans: 2 },
-    { q: "What is the full form of ICT?", opts: ["Information and Computer Technology","Information and Communication Technology","Internet Communication Technology","International Computer Technology"], ans: 1 },
-    { q: "Which software is used to create presentations?", opts: ["MS Word","MS Excel","MS PowerPoint","MS Paint"], ans: 2 },
-    { q: "Which of the following is a web browser?", opts: ["MS Word","Google Chrome","MS Excel","Adobe Photoshop"], ans: 1 },
-    { q: "What does USB stand for?", opts: ["Universal Serial Bus","Universal System Boot","Uniform Serial Bus","United System Bus"], ans: 0 },
-    { q: "Which is the largest unit of storage?", opts: ["Kilobyte","Megabyte","Gigabyte","Terabyte"], ans: 3 },
-    { q: "What does HTML stand for?", opts: ["Hyper Text Markup Language","High Text Markup Language","Hyper Transfer Markup Language","Hyper Text Making Language"], ans: 0 },
-    { q: "Which component stores data permanently?", opts: ["RAM","Cache","Hard Disk","Register"], ans: 2 },
-    { q: "What is the use of a scanner?", opts: ["Print documents","Convert physical documents to digital","Display images","Store data"], ans: 1 },
-    { q: "Which key combination is used to copy?", opts: ["Ctrl+V","Ctrl+X","Ctrl+C","Ctrl+Z"], ans: 2 }
-  ],
-  trueFalse: [
-    { q: "A computer can work without electricity.", ans: false },
-    { q: "The internet is a global network of computers.", ans: true },
-    { q: "RAM is a permanent storage device.", ans: false },
-    { q: "A printer is an input device.", ans: false },
-    { q: "MS Excel is used for making spreadsheets.", ans: true },
-    { q: "A keyboard is an output device.", ans: false },
-    { q: "Email stands for Electronic Mail.", ans: true },
-    { q: "A computer virus is a type of software.", ans: true },
-    { q: "The monitor displays the output of the computer.", ans: true },
-    { q: "A hard disk stores data temporarily.", ans: false },
-    { q: "Google is a search engine.", ans: true },
-    { q: "CPU is called the brain of the computer.", ans: true },
-    { q: "A joystick is used mainly for playing games.", ans: true },
-    { q: "HTTP stands for HyperText Transport Program.", ans: false },
-    { q: "A microphone is an input device.", ans: true }
-  ],
-  match: [
-    { a: "MS Word", b: "Word Processing", opts: ["Word Processing","Spreadsheet","Presentation","Database","Internet Browser"] },
-    { a: "MS Excel", b: "Spreadsheet", opts: ["Word Processing","Spreadsheet","Presentation","Database","Internet Browser"] },
-    { a: "MS PowerPoint", b: "Presentation", opts: ["Word Processing","Spreadsheet","Presentation","Database","Internet Browser"] },
-    { a: "Google Chrome", b: "Internet Browser", opts: ["Word Processing","Spreadsheet","Presentation","Database","Internet Browser"] },
-    { a: "CPU", b: "Brain of Computer", opts: ["Brain of Computer","Memory","Output Device","Storage","Input Device"] },
-    { a: "RAM", b: "Temporary Memory", opts: ["Brain of Computer","Temporary Memory","Output Device","Storage","Input Device"] },
-    { a: "Hard Disk", b: "Storage", opts: ["Brain of Computer","Temporary Memory","Output Device","Storage","Input Device"] },
-    { a: "Monitor", b: "Output Device", opts: ["Brain of Computer","Temporary Memory","Output Device","Storage","Input Device"] },
-    { a: "Keyboard", b: "Input Device", opts: ["Brain of Computer","Temporary Memory","Output Device","Storage","Input Device"] },
-    { a: "Modem", b: "Connects to Internet", opts: ["Connects to Internet","Prints Documents","Plays Audio","Captures Images","Stores Data"] },
-    { a: "Printer", b: "Prints Documents", opts: ["Connects to Internet","Prints Documents","Plays Audio","Captures Images","Stores Data"] },
-    { a: "Webcam", b: "Captures Images", opts: ["Connects to Internet","Prints Documents","Plays Audio","Captures Images","Stores Data"] },
-    { a: "Speaker", b: "Plays Audio", opts: ["Connects to Internet","Prints Documents","Plays Audio","Captures Images","Stores Data"] },
-    { a: "Pendrive", b: "Portable Storage", opts: ["Portable Storage","Processes Data","Sends Fax","Scans Documents","Controls Network"] },
-    { a: "Router", b: "Controls Network", opts: ["Portable Storage","Processes Data","Sends Fax","Scans Documents","Controls Network"] }
-  ],
-  answer: [
-    { q: "Which protocol is used to send emails?", opts: ["HTTP","FTP","SMTP","TCP"], ans: 2 },
-    { q: "What is the binary number system based on?", opts: ["Base 8","Base 10","Base 2","Base 16"], ans: 2 },
-    { q: "Which generation of computers used transistors?", opts: ["First","Second","Third","Fourth"], ans: 1 },
-    { q: "What is a firewall used for?", opts: ["Speed up internet","Protect from threats","Store data","Display images"], ans: 1 },
-    { q: "Which of these is an example of system software?", opts: ["MS Word","Google Chrome","Windows OS","VLC Player"], ans: 2 },
-    { q: "What does PDF stand for?", opts: ["Public Document Format","Portable Document Format","Personal Data File","Print Document Format"], ans: 1 },
-    { q: "Which company developed the Windows operating system?", opts: ["Apple","Google","Microsoft","IBM"], ans: 2 },
-    { q: "What is the shortcut key to undo?", opts: ["Ctrl+Y","Ctrl+Z","Ctrl+X","Ctrl+U"], ans: 1 },
-    { q: "Which device converts digital signals to analog?", opts: ["Router","Scanner","Modem","Hub"], ans: 2 },
-    { q: "What is the full form of LAN?", opts: ["Large Area Network","Local Area Network","Light Area Network","Long Area Network"], ans: 1 },
-    { q: "Which is the most popular spreadsheet software?", opts: ["MS Word","MS Access","MS Excel","MS OneNote"], ans: 2 },
-    { q: "What does GPS stand for?", opts: ["General Positioning System","Global Positioning System","Global Processing System","General Processing System"], ans: 1 },
-    { q: "Which key is used to get help in most programs?", opts: ["F1","F5","F10","Esc"], ans: 0 },
-    { q: "What is the purpose of an antivirus software?", opts: ["Speed up computer","Design websites","Detect and remove malware","Create databases"], ans: 2 },
-    { q: "Which network connects computers in a small area?", opts: ["WAN","MAN","LAN","PAN"], ans: 2 }
-  ]
-};
-
-// Load from localStorage or use defaults
-// Per-standard default question banks (each standard has grade-appropriate questions)
 const DEFAULT_QB_PER_STD = {
-  // ── STD V — Basic ICT concepts ───────────────────────────────
-  V: {
+  // ── STD V ──────────────────────────────────────────────────
+  "V": {
     mcq:[
-      {q:"What does CPU stand for?",opts:["Central Processing Unit","Computer Personal Use","Central Program Unit","Control Processing Unit"],ans:0},
-      {q:"Which device is used to input data into a computer?",opts:["Monitor","Printer","Keyboard","Speaker"],ans:2},
-      {q:"What is the full form of WWW?",opts:["World Wide Web","World Wide Wire","World Web Window","Web Wide World"],ans:0},
-      {q:"Which of the following is an output device?",opts:["Keyboard","Mouse","Monitor","Scanner"],ans:2},
-      {q:"What does RAM stand for?",opts:["Random Access Memory","Read Access Memory","Random Application Memory","Read Application Memory"],ans:0},
-      {q:"Which key is used to delete text to the left of the cursor?",opts:["Delete","End","Backspace","Escape"],ans:2},
-      {q:"What is the full form of ICT?",opts:["Information and Computer Technology","Information and Communication Technology","Internet Communication Technology","International Computer Technology"],ans:1},
-      {q:"Which software is used to create presentations?",opts:["MS Word","MS Excel","MS PowerPoint","MS Paint"],ans:2},
-      {q:"Which of the following is a web browser?",opts:["MS Word","Google Chrome","MS Excel","Adobe Photoshop"],ans:1},
-      {q:"What does USB stand for?",opts:["Universal Serial Bus","Universal System Boot","Uniform Serial Bus","United System Bus"],ans:0},
-      {q:"Which is the largest unit of storage?",opts:["Kilobyte","Megabyte","Gigabyte","Terabyte"],ans:3},
-      {q:"What does HTML stand for?",opts:["Hyper Text Markup Language","High Text Markup Language","Hyper Transfer Markup Language","Hyper Text Making Language"],ans:0},
-      {q:"Which component stores data permanently?",opts:["RAM","Cache","Hard Disk","Register"],ans:2},
-      {q:"What is the use of a scanner?",opts:["Print documents","Convert physical documents to digital","Display images","Store data"],ans:1},
-      {q:"Which key combination is used to copy?",opts:["Ctrl+V","Ctrl+X","Ctrl+C","Ctrl+Z"],ans:2}
+      {"q": "The individual pages of a PowerPoint presentation are called", "opts": ["Handouts", "Print outs", "Slides", "Tool bars"], "ans": 2, "source": "upload"},
+      {"q": "Who provides us Internet connection?", "opts": ["TCP", "ISP", "FTP", "HTTP"], "ans": 1, "source": "upload"},
+      {"q": "The rectangular boxes enclosed with dotted lines are called", "opts": ["Slides", "Presentation", "Placeholder", "All of these"], "ans": 2, "source": "upload"},
+      {"q": "URL stands for", "opts": ["Uniform Resource Locator", "Unit Resource Locator", "Uniform Require Locator", "Universal Resource Locator"], "ans": 0, "source": "upload"},
+      {"q": "Shortcut key to duplicate a slide is", "opts": ["Ctrl+N", "Ctrl+M", "Ctrl+D", "Ctrl+V"], "ans": 2, "source": "upload"},
+      {"q": "The domain 'mil' is used for", "opts": ["Government organization", "Military", "Network organization", "Educational organization"], "ans": 1, "source": "upload"},
+      {"q": "Which tab is used to insert pictures in PowerPoint?", "opts": ["Home", "Insert", "Design", "Review"], "ans": 1, "source": "upload"},
+      {"q": "Which of the following is NOT a browser?", "opts": ["Microsoft Edge", "Gmail", "Internet Explorer", "Google Chrome"], "ans": 1, "source": "upload"},
+      {"q": "Single point in an image is called", "opts": ["Element", "Pixel", "Grid", "All of these"], "ans": 1, "source": "upload"},
+      {"q": "E-mail stands for", "opts": ["Electrical Mail", "Electronic Mail", "Easy Mail", "Explorer Mail"], "ans": 1, "source": "upload"},
+      {"q": "Which view shows miniature slides?", "opts": ["Slide Show", "Slide Sorter View", "Outline View", "Normal View"], "ans": 1, "source": "upload"},
+      {"q": "In abc@silverzone.org, 'abc' is the", "opts": ["Password", "Server name", "User name", "Computer name"], "ans": 2, "source": "upload"},
+      {"q": "Which group allows you to insert video into your slide?", "opts": ["Illustration", "Symbol", "Media", "Flash"], "ans": 2, "source": "upload"},
+      {"q": "Which of the following can be an attachment?", "opts": ["Word file", "Picture", "Graphics", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Which button will send your reply to everyone?", "opts": ["Reply", "Reply All", "Forward", "None of these"], "ans": 1, "source": "upload"},
+      {"q": "In order to move to last cell of a column, which will you use?", "opts": ["Alt+Page Up", "Alt+Page Down", "Alt+Home", "Alt+End"], "ans": 3, "source": "upload"},
+      {"q": "What is the shortcut to move to the next cell in a column?", "opts": ["Up Arrow", "Down Arrow", "Left Arrow", "Right Arrow"], "ans": 1, "source": "upload"},
+      {"q": "Which tab is used to insert a column in a table?", "opts": ["Design", "Layout", "Home", "None of these"], "ans": 1, "source": "upload"},
+      {"q": "In order to move to the first cell of the row, which will you use?", "opts": ["Ctrl+End", "Ctrl+Home", "Ctrl+PageUp", "Ctrl+PageDown"], "ans": 1, "source": "upload"},
+      {"q": "Which of the following is/are a type of border?", "opts": ["Top", "Bottom", "Left", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "How many cells can you merge in a table?", "opts": ["1", "2", "5", "Both B and C"], "ans": 3, "source": "upload"},
+      {"q": "What are the vertical sections of a table called?", "opts": ["Columns", "Rows", "Cells", "None of these"], "ans": 0, "source": "upload"},
+      {"q": "You can sort a table in", "opts": ["Ascending order", "Descending order", "Both A and B", "None of these"], "ans": 2, "source": "upload"},
+      {"q": "In order to move to the first cell of the column, which will you use?", "opts": ["Alt+Page Down", "Alt+Page Up", "Alt+Home", "Alt+End"], "ans": 2, "source": "upload"},
+      {"q": "Maximum how many columns can you insert in a Word document?", "opts": ["40", "63", "50", "55"], "ans": 1, "source": "upload"},
     ],
     trueFalse:[
-      {q:"A computer can work without electricity.",ans:false},
-      {q:"The internet is a global network of computers.",ans:true},
-      {q:"RAM is a permanent storage device.",ans:false},
-      {q:"A printer is an input device.",ans:false},
-      {q:"MS Excel is used for making spreadsheets.",ans:true},
-      {q:"A keyboard is an output device.",ans:false},
-      {q:"Email stands for Electronic Mail.",ans:true},
-      {q:"A computer virus is a type of software.",ans:true},
-      {q:"The monitor displays the output of the computer.",ans:true},
-      {q:"A hard disk stores data temporarily.",ans:false},
-      {q:"Google is a search engine.",ans:true},
-      {q:"CPU is called the brain of the computer.",ans:true},
-      {q:"A joystick is used mainly for playing games.",ans:true},
-      {q:"HTTP stands for HyperText Transport Program.",ans:false},
-      {q:"A microphone is an input device.",ans:true}
+      {"q": "A PowerPoint presentation is made up of many slides.", "ans": true, "source": "upload"},
+      {"q": "We cannot add text to a PowerPoint slide.", "ans": false, "source": "upload"},
+      {"q": "Pictures can be inserted from the computer.", "ans": true, "source": "upload"},
+      {"q": "Internet pictures cannot be added to PowerPoint.", "ans": false, "source": "upload"},
+      {"q": "Duplicate Slide option creates a copy of the slide.", "ans": true, "source": "upload"},
+      {"q": "Clip arts are only text files.", "ans": false, "source": "upload"},
+      {"q": "Audio and video can be inserted using the Insert tab.", "ans": true, "source": "upload"},
+      {"q": "The Internet connects computers all over the world.", "ans": true, "source": "upload"},
+      {"q": "A web page is a collection of many websites.", "ans": false, "source": "upload"},
+      {"q": "A website contains many web pages.", "ans": true, "source": "upload"},
+      {"q": "URL stands for Uniform Resource Locator.", "ans": true, "source": "upload"},
+      {"q": "DSL and cable are types of ISP connections.", "ans": true, "source": "upload"},
+      {"q": "We cannot send pictures using e-mail.", "ans": false, "source": "upload"},
+      {"q": "Internet Explorer and Chrome are web browsers.", "ans": true, "source": "upload"},
     ],
     match:[
-      {a:"MS Word",b:"Word Processing",opts:["Word Processing","Spreadsheet","Presentation","Database","Internet Browser"]},
-      {a:"MS Excel",b:"Spreadsheet",opts:["Word Processing","Spreadsheet","Presentation","Database","Internet Browser"]},
-      {a:"MS PowerPoint",b:"Presentation",opts:["Word Processing","Spreadsheet","Presentation","Database","Internet Browser"]},
-      {a:"Google Chrome",b:"Internet Browser",opts:["Word Processing","Spreadsheet","Presentation","Database","Internet Browser"]},
-      {a:"CPU",b:"Brain of Computer",opts:["Brain of Computer","Memory","Output Device","Storage","Input Device"]},
-      {a:"RAM",b:"Temporary Memory",opts:["Brain of Computer","Temporary Memory","Output Device","Storage","Input Device"]},
-      {a:"Hard Disk",b:"Storage",opts:["Brain of Computer","Temporary Memory","Output Device","Storage","Input Device"]},
-      {a:"Monitor",b:"Output Device",opts:["Brain of Computer","Temporary Memory","Output Device","Storage","Input Device"]},
-      {a:"Keyboard",b:"Input Device",opts:["Brain of Computer","Temporary Memory","Output Device","Storage","Input Device"]},
-      {a:"Modem",b:"Connects to Internet",opts:["Connects to Internet","Prints Documents","Plays Audio","Captures Images","Stores Data"]},
-      {a:"Printer",b:"Prints Documents",opts:["Connects to Internet","Prints Documents","Plays Audio","Captures Images","Stores Data"]},
-      {a:"Webcam",b:"Captures Images",opts:["Connects to Internet","Prints Documents","Plays Audio","Captures Images","Stores Data"]},
-      {a:"Speaker",b:"Plays Audio",opts:["Connects to Internet","Prints Documents","Plays Audio","Captures Images","Stores Data"]},
-      {a:"Pendrive",b:"Portable Storage",opts:["Portable Storage","Processes Data","Sends Fax","Scans Documents","Controls Network"]},
-      {a:"Router",b:"Controls Network",opts:["Portable Storage","Processes Data","Sends Fax","Scans Documents","Controls Network"]}
+      {"a": "Slide", "b": "Single page of presentation", "source": "upload"},
+      {"a": "New Slide", "b": "Adds a fresh slide", "source": "upload"},
+      {"a": "Text Box", "b": "Used to type text", "source": "upload"},
+      {"a": "Insert Tab", "b": "Used to add pictures and media", "source": "upload"},
+      {"a": "Duplicate Slide", "b": "Makes copy of a slide", "source": "upload"},
+      {"a": "Clip Art", "b": "Ready-made picture", "source": "upload"},
+      {"a": "Audio / Video", "b": "Makes presentation attractive", "source": "upload"},
+      {"a": "Web Page", "b": "Single page on the Internet", "source": "upload"},
+      {"a": "Website", "b": "Collection of web pages", "source": "upload"},
+      {"a": "URL", "b": "Address of a website", "source": "upload"},
+      {"a": "Hyperlink", "b": "Clickable link", "source": "upload"},
+      {"a": "ISP", "b": "Internet service provider", "source": "upload"},
+      {"a": "WWW", "b": "World Wide Web", "source": "upload"},
+      {"a": "E-mail", "b": "Electronic mail", "source": "upload"},
     ],
     answer:[
-      {q:"What does PDF stand for?",opts:["Public Document Format","Portable Document Format","Personal Data File","Print Document Format"],ans:1},
-      {q:"Which company developed Windows OS?",opts:["Apple","Google","Microsoft","IBM"],ans:2},
-      {q:"What is the shortcut key to Undo?",opts:["Ctrl+Y","Ctrl+Z","Ctrl+X","Ctrl+U"],ans:1},
-      {q:"What is the full form of LAN?",opts:["Large Area Network","Local Area Network","Light Area Network","Long Area Network"],ans:1},
-      {q:"Which key is used to get help in most programs?",opts:["F1","F5","F10","Esc"],ans:0},
-      {q:"Which is the most popular spreadsheet software?",opts:["MS Word","MS Access","MS Excel","MS OneNote"],ans:2},
-      {q:"What does GPS stand for?",opts:["General Positioning System","Global Positioning System","Global Processing System","General Processing System"],ans:1},
-      {q:"What is the purpose of antivirus software?",opts:["Speed up computer","Design websites","Detect and remove malware","Create databases"],ans:2},
-      {q:"Which network connects computers in a small area?",opts:["WAN","MAN","LAN","PAN"],ans:2},
-      {q:"What does URL stand for?",opts:["Universal Resource Locator","Uniform Resource Locator","Universal Record Link","Unified Resource Locator"],ans:1},
-      {q:"Which device converts digital signals to analog?",opts:["Router","Scanner","Modem","Hub"],ans:2},
-      {q:"What does IC stand for in electronics?",opts:["Integrated Circuit","Internal Component","Interface Card","Input Controller"],ans:0},
-      {q:"Which protocol is used to send emails?",opts:["HTTP","FTP","SMTP","TCP"],ans:2},
-      {q:"What is the binary number system based on?",opts:["Base 8","Base 10","Base 2","Base 16"],ans:2},
-      {q:"Which generation of computers used transistors?",opts:["First","Second","Third","Fourth"],ans:1}
-    ]
+      {"q": "What is the full form of PPT?", "opts": ["PowerPoint Presentation", "Personal Page Tool", "Program Presentation Tool", "Public Page Type"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of MS PPT?", "opts": ["Microsoft PowerPoint", "Micro System Power Tool", "Microsoft Program Tool", "Multiple Slide Program Tool"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of GUI?", "opts": ["Graphical User Interface", "General User Internet", "Global User Interface", "Graphic Utility Interface"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of PC?", "opts": ["Personal Computer", "Private Computer", "Program Computer", "Public Computer"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of CPU?", "opts": ["Central Processing Unit", "Computer Program Unit", "Control Processing Unit", "Central Power Unit"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of WWW?", "opts": ["World Wide Web", "World Web Window", "Wide World Web", "Web World Wide"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of URL?", "opts": ["Uniform Resource Locator", "Universal Resource Link", "Unified Resource Locator", "Universal Reference Link"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of ISP?", "opts": ["Internet Service Provider", "Internet System Program", "Internal Server Provider", "Internet Security Protocol"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of DSL?", "opts": ["Digital Subscriber Line", "Data System Line", "Direct Service Line", "Digital System Link"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of HTTP?", "opts": ["HyperText Transfer Protocol", "Hyper Transfer Text Protocol", "High Transfer Text Protocol", "Hyper Tool Transfer Protocol"], "ans": 0, "source": "upload"},
+    ],
   },
-
-  // ── STD VI — Intermediate ICT ─────────────────────────────────
-  VI: {
+  // ── STD VI ──────────────────────────────────────────────────
+  "VI": {
     mcq:[
-      {q:"Which type of memory is volatile?",opts:["ROM","Hard Disk","RAM","Flash Drive"],ans:2},
-      {q:"What does GUI stand for?",opts:["General User Interface","Graphical User Interface","Global Unit Interface","Generated User Input"],ans:1},
-      {q:"Which file extension is used for MS Word documents?",opts:[".xls",".ppt",".doc / .docx",".pdf"],ans:2},
-      {q:"What is the function of the 'Recycle Bin' in Windows?",opts:["Store temporary files","Store deleted files","Store downloads","Store system files"],ans:1},
-      {q:"Which of these is NOT an operating system?",opts:["Windows","Linux","MS Word","macOS"],ans:2},
-      {q:"What does the shortcut Ctrl+P do?",opts:["Paste","Print","Preview","Play"],ans:1},
-      {q:"Which unit is used to measure processor speed?",opts:["GB","MB","GHz","KB"],ans:2},
-      {q:"What is 'phishing'?",opts:["A type of virus","Fake website to steal info","A printer error","Slow internet"],ans:1},
-      {q:"Which of these is cloud storage?",opts:["USB Drive","External Hard Disk","Google Drive","CD-ROM"],ans:2},
-      {q:"Which key combination selects all text?",opts:["Ctrl+X","Ctrl+A","Ctrl+S","Ctrl+D"],ans:1},
-      {q:"What does FTP stand for?",opts:["Fast Transfer Protocol","File Transfer Protocol","Folder Transfer Program","File Transport Path"],ans:1},
-      {q:"Which of these is a programming language?",opts:["HTTP","Python","HTML","FTP"],ans:1},
-      {q:"What is the purpose of a firewall?",opts:["Speed up internet","Display graphics","Block unauthorized access","Store data"],ans:2},
-      {q:"Which key is used to rename a file in Windows?",opts:["F1","F2","F3","F4"],ans:1},
-      {q:"What does ISP stand for?",opts:["Internet Service Provider","Internal System Protocol","Integrated Software Package","Internet Speed Performance"],ans:0}
+      {"q": "Which function in Excel tells how many numeric entries are there?", "opts": ["NUM", "COUNT", "SUM", "CHKNUM"], "ans": 1, "source": "upload"},
+      {"q": "Which of the following is NOT a type of cell referencing?", "opts": ["Relative", "Absolute", "Mixed", "General"], "ans": 3, "source": "upload"},
+      {"q": "To create a formula, you can use:", "opts": ["Values but not cell references", "Cell references but not values", "Values or cell references but not both", "Values and cell references"], "ans": 3, "source": "upload"},
+      {"q": "In MS-Excel, a value used in a formula that does not change is called:", "opts": ["Cell address", "Constant", "Function", "None of these"], "ans": 1, "source": "upload"},
+      {"q": "Which of the following is an absolute cell reference?", "opts": ["!A!1", "$A$1", "#A#1", "A1"], "ans": 1, "source": "upload"},
+      {"q": "Which function is used to input the date only in MS Excel?", "opts": ["Today", "Now", "Time", "Calendar"], "ans": 0, "source": "upload"},
+      {"q": "Which is the correct order of precedence in formula calculation?", "opts": ["Exponentiation, Multiplication/Division, Addition/Subtraction", "Multiplication, Division, Addition, Subtraction", "Addition, Subtraction, Exponentiation", "All of these"], "ans": 0, "source": "upload"},
+      {"q": "Formulas in Excel start with:", "opts": ["#", "=", "$", "&"], "ans": 1, "source": "upload"},
+      {"q": "Which function finds the maximum value in a range?", "opts": ["Average", "Max", "Min", "Sum"], "ans": 1, "source": "upload"},
+      {"q": "Which sign is displayed when a formula error occurs in MS Excel?", "opts": ["$", "*", "?", "#"], "ans": 3, "source": "upload"},
+      {"q": "______ means to check for errors and remove them.", "opts": ["Bug", "Debug", "Correct", "Repeat"], "ans": 1, "source": "upload"},
+      {"q": "BASIC stands for:", "opts": ["Beginners All-Part Symbolic Instruction Code", "Beginners All-Purpose Systematic Instruction Code", "Beginners All-Program Symbolic Instruction Code", "Beginners All-Purpose Symbolic Instruction Code"], "ans": 3, "source": "upload"},
+      {"q": "Which key is used to run a program in Small Basic?", "opts": ["F1", "F3", "F4", "F5"], "ans": 3, "source": "upload"},
+      {"q": "How many reserved words are there in Small Basic?", "opts": ["10", "12", "14", "15"], "ans": 2, "source": "upload"},
+      {"q": "A named area of memory that stores a value temporarily is called:", "opts": ["Program", "Statement", "Constant", "Variable"], "ans": 3, "source": "upload"},
+      {"q": "An object in Small Basic has:", "opts": ["Properties", "Methods", "Both A and B", "None of these"], "ans": 2, "source": "upload"},
+      {"q": "Which of the following can be used as an operator in Small Basic?", "opts": ["+", "-", "*", "/"], "ans": 0, "source": "upload"},
+      {"q": "The symbol used for comment in Small Basic is:", "opts": ["Comma", "Apostrophe", "Semi colon", "Double quote"], "ans": 1, "source": "upload"},
+      {"q": "A value that does not change during program execution is called:", "opts": ["Constant", "Variable", "Operator", "Object"], "ans": 0, "source": "upload"},
+      {"q": "Identify the comparison operator from the following:", "opts": ["+", "/", "OR", "="], "ans": 3, "source": "upload"},
+      {"q": "Which enables us to watch video during video conferencing?", "opts": ["Speaker", "Monitor", "Webcam", "Both B and C"], "ans": 3, "source": "upload"},
+      {"q": "WWW can contain:", "opts": ["Multimedia presentation", "Images", "Video clips", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Which of the following is also called Internet learning?", "opts": ["E-banking", "E-commerce", "E-learning", "Internet TV"], "ans": 2, "source": "upload"},
+      {"q": "Internet messaging is also known as:", "opts": ["WWW", "IMing", "Chatting", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Which of the following allows you to pay bills?", "opts": ["Chatting", "E-learning", "E-commerce", "Internet TV"], "ans": 2, "source": "upload"},
+      {"q": "Which of the following is/are multimedia devices?", "opts": ["Flash", "Speaker", "Camera", "Both B and C"], "ans": 3, "source": "upload"},
+      {"q": "E-learning can be done using:", "opts": ["Computer", "Mobile", "Book", "Both A and B"], "ans": 3, "source": "upload"},
+      {"q": "Which of the following are Internet TV providers?", "opts": ["Netflix", "Amazon Video", "Hotstar", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Facebook Messenger is:", "opts": ["E-learning app", "E-commerce app", "Chatting app", "ISP"], "ans": 2, "source": "upload"},
+      {"q": "Which of the following is NOT necessary for video conferencing?", "opts": ["Webcam", "Microphone", "Keyboard", "Monitor"], "ans": 2, "source": "upload"},
     ],
     trueFalse:[
-      {q:"A byte consists of 8 bits.",ans:true},
-      {q:"Linux is a paid operating system.",ans:false},
-      {q:"URL stands for Uniform Resource Locator.",ans:true},
-      {q:"A virus can spread through email attachments.",ans:true},
-      {q:"ROM stands for Read Only Memory.",ans:true},
-      {q:"The function key F5 is used to refresh a webpage.",ans:true},
-      {q:"MS Access is a spreadsheet application.",ans:false},
-      {q:"Bluetooth is a wireless communication technology.",ans:true},
-      {q:"A megabyte is smaller than a kilobyte.",ans:false},
-      {q:"Google Drive is an example of cloud storage.",ans:true},
-      {q:"BIOS stands for Basic Input Output System.",ans:true},
-      {q:"A screenshot saves text from a document.",ans:false},
-      {q:"Ctrl+Z is the shortcut for Redo.",ans:false},
-      {q:"An IP address identifies a device on a network.",ans:true},
-      {q:"Spyware is a type of harmful software.",ans:true}
+      {"q": "A formula in Excel always starts with the symbol (=).", "ans": true, "source": "upload"},
+      {"q": "Cell referencing helps Excel identify the cell used in a formula.", "ans": true, "source": "upload"},
+      {"q": "Relative cell reference remains fixed when copied.", "ans": false, "source": "upload"},
+      {"q": "Absolute cell reference uses the dollar ($) sign.", "ans": true, "source": "upload"},
+      {"q": "Functions are used only for typing text.", "ans": false, "source": "upload"},
+      {"q": "Formulas can be copied using copy and paste.", "ans": true, "source": "upload"},
+      {"q": "Date and Time functions work without formulas.", "ans": false, "source": "upload"},
+      {"q": "Small Basic is suitable for beginners.", "ans": true, "source": "upload"},
+      {"q": "Small Basic programs are written using simple commands.", "ans": true, "source": "upload"},
+      {"q": "The Small Basic window has no toolbar.", "ans": false, "source": "upload"},
+      {"q": "A program must be saved before closing Small Basic.", "ans": true, "source": "upload"},
+      {"q": "Saved programs cannot be reopened.", "ans": false, "source": "upload"},
+      {"q": "Small Basic allows users to share programs online.", "ans": true, "source": "upload"},
+      {"q": "Small Basic is used only for typing documents.", "ans": false, "source": "upload"},
+      {"q": "WWW is used to access web pages.", "ans": true, "source": "upload"},
+      {"q": "Video conferencing needs Internet.", "ans": true, "source": "upload"},
+      {"q": "E-commerce is only offline.", "ans": false, "source": "upload"},
+      {"q": "Chatting allows instant communication.", "ans": true, "source": "upload"},
+      {"q": "E-learning cannot be done from home.", "ans": false, "source": "upload"},
+      {"q": "Internet TV works without Internet.", "ans": false, "source": "upload"},
+      {"q": "Newsgroups are used for discussions.", "ans": true, "source": "upload"},
     ],
     match:[
-      {a:"Python",b:"Programming Language",opts:["Programming Language","Operating System","Web Browser","Spreadsheet","Database"]},
-      {a:"Windows 11",b:"Operating System",opts:["Programming Language","Operating System","Web Browser","Spreadsheet","Database"]},
-      {a:"Firefox",b:"Web Browser",opts:["Programming Language","Operating System","Web Browser","Spreadsheet","Database"]},
-      {a:"MS Excel",b:"Spreadsheet",opts:["Programming Language","Operating System","Web Browser","Spreadsheet","Database"]},
-      {a:"MySQL",b:"Database",opts:["Programming Language","Operating System","Web Browser","Spreadsheet","Database"]},
-      {a:"Ctrl+S",b:"Save",opts:["Save","Copy","Paste","Undo","Print"]},
-      {a:"Ctrl+C",b:"Copy",opts:["Save","Copy","Paste","Undo","Print"]},
-      {a:"Ctrl+V",b:"Paste",opts:["Save","Copy","Paste","Undo","Print"]},
-      {a:"Ctrl+Z",b:"Undo",opts:["Save","Copy","Paste","Undo","Print"]},
-      {a:"Ctrl+P",b:"Print",opts:["Save","Copy","Paste","Undo","Print"]},
-      {a:"1 Byte",b:"8 Bits",opts:["8 Bits","1024 Bytes","1024 KB","1024 MB","1024 GB"]},
-      {a:"1 Kilobyte",b:"1024 Bytes",opts:["8 Bits","1024 Bytes","1024 KB","1024 MB","1024 GB"]},
-      {a:"1 Megabyte",b:"1024 KB",opts:["8 Bits","1024 Bytes","1024 KB","1024 MB","1024 GB"]},
-      {a:"Virus",b:"Harmful Software",opts:["Harmful Software","Cloud Storage","Search Engine","Programming Tool","Input Device"]},
-      {a:"Google Drive",b:"Cloud Storage",opts:["Harmful Software","Cloud Storage","Search Engine","Programming Tool","Input Device"]}
+      {"a": "Formula", "b": "Performs calculation", "source": "upload"},
+      {"a": "Relative reference", "b": "Changes when copied", "source": "upload"},
+      {"a": "Absolute reference", "b": "Uses $ symbol", "source": "upload"},
+      {"a": "Mixed reference", "b": "Part fixed part change", "source": "upload"},
+      {"a": "Copy formula", "b": "Duplicate calculation", "source": "upload"},
+      {"a": "Mathematical functions", "b": "Addition and subtraction", "source": "upload"},
+      {"a": "Text functions", "b": "Work with text", "source": "upload"},
+      {"a": "Small Basic", "b": "Beginner programming language", "source": "upload"},
+      {"a": "Editor Window", "b": "Area to type code", "source": "upload"},
+      {"a": "Toolbar", "b": "Contains command buttons", "source": "upload"},
+      {"a": "Save option", "b": "Stores the program", "source": "upload"},
+      {"a": "Open option", "b": "Opens saved program", "source": "upload"},
+      {"a": "Simple program", "b": "Performs basic task", "source": "upload"},
+      {"a": "Publish option", "b": "Share program online", "source": "upload"},
+      {"a": "WWW", "b": "Web pages on Internet", "source": "upload"},
+      {"a": "Video Conferencing", "b": "Live video communication", "source": "upload"},
+      {"a": "E-commerce", "b": "Online buying and selling", "source": "upload"},
+      {"a": "Chatting", "b": "Instant messaging", "source": "upload"},
+      {"a": "E-learning", "b": "Online study system", "source": "upload"},
+      {"a": "Internet TV", "b": "Watching programs online", "source": "upload"},
+      {"a": "Newsgroups", "b": "Online discussions", "source": "upload"},
     ],
     answer:[
-      {q:"What does HTML stand for?",opts:["Hyper Text Markup Language","High Transfer Markup Language","Hyper Transfer Markup Language","Home Text Markup Language"],ans:0},
-      {q:"Which protocol is used to browse websites?",opts:["FTP","SMTP","HTTP","POP3"],ans:2},
-      {q:"What is the full form of WWW?",opts:["World Wide Web","World Web Wire","Wide World Web","Web World Wide"],ans:0},
-      {q:"Which device is used to connect to WiFi?",opts:["Printer","Wireless Network Adapter","Scanner","Hard Disk"],ans:1},
-      {q:"What does 'booting' a computer mean?",opts:["Installing software","Starting up the OS","Formatting a drive","Deleting files"],ans:1},
-      {q:"What does CTRL+ALT+DEL do in Windows?",opts:["Restart only","Open Task Manager / Security options","Shutdown immediately","Open settings"],ans:1},
-      {q:"Which of these stores the most data?",opts:["1 KB","1 MB","1 GB","1 TB"],ans:3},
-      {q:"What is a 'pixel'?",opts:["A type of software","Smallest unit of a digital image","A storage unit","A type of virus"],ans:1},
-      {q:"Which symbol is used in all email addresses?",opts:["#","@","&","*"],ans:1},
-      {q:"What is an avatar?",opts:["A type of virus","A computer chip","A digital image representing a user","A gaming console"],ans:2},
-      {q:"What does 'download' mean?",opts:["Transfer data from internet to your device","Transfer data from your device to internet","Delete files","Save to cloud"],ans:0},
-      {q:"Which of these is NOT a social media platform?",opts:["Facebook","Twitter","WhatsApp","Notepad"],ans:3},
-      {q:"What is 'spam'?",opts:["A helpful email","Unsolicited junk email","A type of antivirus","A cloud service"],ans:1},
-      {q:"What does Ctrl+F do?",opts:["Format text","Find text","File save","Font change"],ans:1},
-      {q:"What is a 'folder' in a computer?",opts:["A physical file","A container for organizing files","A type of software","A computer virus"],ans:1}
-    ]
+      {"q": "WWW stands for?", "opts": ["World Wide Web", "Web World Wide", "Wide Web World", "World Web Wide"], "ans": 0, "source": "upload"},
+      {"q": "ISP stands for?", "opts": ["Internet Service Provider", "Internet System Program", "Internal Service Protocol", "Internet Server Program"], "ans": 0, "source": "upload"},
+      {"q": "URL stands for?", "opts": ["Uniform Resource Locator", "Universal Resource Link", "Uniform Response Locator", "Universal Response Link"], "ans": 0, "source": "upload"},
+      {"q": "E-mail stands for?", "opts": ["Electronic Mail", "Easy Mail", "Electrical Mail", "Explorer Mail"], "ans": 0, "source": "upload"},
+      {"q": "HTTP stands for?", "opts": ["HyperText Transfer Protocol", "Hyper Transfer Text Program", "High Transfer Text Protocol", "Hyper Tool Transfer Program"], "ans": 0, "source": "upload"},
+      {"q": "SB stands for?", "opts": ["Small Basic", "Simple Basic", "System Basic", "Software Basic"], "ans": 0, "source": "upload"},
+      {"q": "GUI stands for?", "opts": ["Graphical User Interface", "Graphic Utility Interface", "Global User Internet", "Graphical Universal Internet"], "ans": 0, "source": "upload"},
+      {"q": "IDE stands for?", "opts": ["Integrated Development Environment", "Internet Development Engine", "Internal Device Editor", "Integrated Data Engine"], "ans": 0, "source": "upload"},
+      {"q": "RAM stands for?", "opts": ["Random Access Memory", "Read Access Memory", "Run Access Memory", "Rapid Access Memory"], "ans": 0, "source": "upload"},
+      {"q": "PC stands for?", "opts": ["Personal Computer", "Program Computer", "Process Computer", "Personal Control"], "ans": 0, "source": "upload"},
+      {"q": "MS Excel stands for?", "opts": ["Microsoft Excel", "Micro System Excel", "Multi Sheet Excel", "Main System Excel"], "ans": 0, "source": "upload"},
+      {"q": "CPU stands for?", "opts": ["Central Processing Unit", "Computer Processing Unit", "Control Processing Unit", "Central Program Unit"], "ans": 0, "source": "upload"},
+      {"q": "SUM stands for?", "opts": ["Summation Function", "Summary Function", "Sum Utility Method", "System Utility Method"], "ans": 0, "source": "upload"},
+      {"q": "AVG stands for?", "opts": ["Average", "Available", "Average Value Generator", "Automatic Value Generator"], "ans": 0, "source": "upload"},
+      {"q": "IF stands for?", "opts": ["Logical If Function", "Internal Function", "Internet Function", "Input Function"], "ans": 0, "source": "upload"},
+    ],
   },
-
-  // ── STD VII — Advanced ICT ────────────────────────────────────
-  VII: {
+  // ── STD VII ──────────────────────────────────────────────────
+  "VII": {
     mcq:[
-      {q:"Which data type stores True or False values?",opts:["Integer","String","Boolean","Float"],ans:2},
-      {q:"What is the function of DNS?",opts:["Store files online","Translate domain names to IP addresses","Block viruses","Manage RAM"],ans:1},
-      {q:"Which topology connects all devices to a central hub?",opts:["Ring","Bus","Star","Mesh"],ans:2},
-      {q:"What does CSS stand for?",opts:["Computer Style Sheet","Cascading Style Sheets","Creative Style System","Computer Standard Syntax"],ans:1},
-      {q:"In a spreadsheet, what does the SUM function do?",opts:["Counts cells","Adds values in a range","Multiplies cells","Finds average"],ans:1},
-      {q:"What is 'open source' software?",opts:["Software that costs money","Software whose source code is freely available","Paid software","Government software"],ans:1},
-      {q:"Which generation of computers uses VLSI circuits?",opts:["First","Second","Third","Fourth"],ans:3},
-      {q:"What does 'bandwidth' refer to?",opts:["Physical size of a cable","Amount of data transmitted per second","Storage capacity","Screen resolution"],ans:1},
-      {q:"Which HTML tag creates a hyperlink?",opts:["<link>","<a>","<href>","<url>"],ans:1},
-      {q:"What is a compiler?",opts:["A type of input device","A program that translates code to machine language","A memory storage unit","A network device"],ans:1},
-      {q:"What does HTTPS mean?",opts:["Hyper Text Transfer Protocol Secure","High Tech Transport Protocol","Hyper Transfer Text Protocol","Hyper Text Test Protocol Secure"],ans:0},
-      {q:"Which of these is an example of an algorithm?",opts:["A computer virus","Step-by-step instructions to solve a problem","A storage unit","A web browser"],ans:1},
-      {q:"What is 'e-commerce'?",opts:["Electronic communication","Buying and selling goods online","Email service","Electronic government"],ans:1},
-      {q:"What does VPN stand for?",opts:["Virtual Private Network","Very Personal Network","Virtual Public Network","Verified Private Node"],ans:0},
-      {q:"Which of these is NOT a type of network?",opts:["LAN","WAN","MAN","PAN"],ans:3}
+      {"q": "The options for sorting and filtering are present in which tab?", "opts": ["Home", "Insert", "Data", "Layout"], "ans": 2, "source": "upload"},
+      {"q": "If you use AutoFill with a number, Excel will fill selected cells with:", "opts": ["The same value", "Different values", "Either A or B", "AutoFill will not work"], "ans": 2, "source": "upload"},
+      {"q": "Which types of data can be sorted in Excel?", "opts": ["Textual", "Numeric", "Alphanumeric", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Under which category of Advanced options do you find Edit Custom List?", "opts": ["When calculating this workbook", "General", "Lotus compatibility", "None of these"], "ans": 1, "source": "upload"},
+      {"q": "How many ways are there to create custom lists in Excel?", "opts": ["2", "3", "4", "5"], "ans": 1, "source": "upload"},
+      {"q": "Which of the following is NOT a valid Filter argument?", "opts": ["Does not equal", "This Quarter", "Filter by Cell Color", "All of these are Filter arguments"], "ans": 3, "source": "upload"},
+      {"q": "When you type January and drag AutoFill, Excel fills February, March etc. using:", "opts": ["AutoComplete", "AutoFormat", "Custom List", "Calculation Automatic"], "ans": 2, "source": "upload"},
+      {"q": "To arrange countries from lowest to highest population you use:", "opts": ["Ascending order", "Descending order", "Alphabetical order", "Random order"], "ans": 0, "source": "upload"},
+      {"q": "Which feature allows you to hide unwanted data in Excel?", "opts": ["AutoFill", "Sorting", "Filtering", "All of these"], "ans": 2, "source": "upload"},
+      {"q": "Computer virus can spread from one computer to another through:", "opts": ["Infected portable disk", "Internet", "Pirated software", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Which of the following pretends to be useful software?", "opts": ["Worm", "Spyware", "Trojan Horse", "Keylogger"], "ans": 2, "source": "upload"},
+      {"q": "Which of the following is NOT a virus?", "opts": ["Worm", "Logic Bomb", "Trojan Horse", "WinZip"], "ans": 3, "source": "upload"},
+      {"q": "Which of the following are symptoms of a computer virus?", "opts": ["Normal performance", "Erratic behaviour", "Data loss", "Both B and C"], "ans": 3, "source": "upload"},
+      {"q": "Viruses that infect Word or Excel documents are called:", "opts": ["Macro Virus", "File Infector", "Polymorphic Virus", "None"], "ans": 0, "source": "upload"},
+      {"q": "Example of a multipartite virus is:", "opts": ["Junkie Virus", "Melissa", "Satanbug", "VirLock"], "ans": 0, "source": "upload"},
+      {"q": "Which action protects your computer from viruses?", "opts": ["Use antivirus", "Avoid unknown emails", "Download trusted software", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Which virus spreads mainly through USB drives and floppy disks?", "opts": ["Polymorphic Virus", "Boot Sector Virus", "Multipartite Virus", "Macro Virus"], "ans": 1, "source": "upload"},
+      {"q": "Antivirus software protects computer from:", "opts": ["Viruses", "Worms", "Spyware", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Which virus can infect both boot sector and files?", "opts": ["Boot Sector Virus", "Polymorphic Virus", "Multipartite Virus", "Macro Virus"], "ans": 2, "source": "upload"},
+      {"q": "Find the odd one out among networking devices.", "opts": ["Router", "Switch", "Bridge", "NIC"], "ans": 3, "source": "upload"},
+      {"q": "In Client-Server model the client is:", "opts": ["Program running on server", "Program running on remote computer", "Server application", "All of these"], "ans": 1, "source": "upload"},
+      {"q": "The Internet is an example of:", "opts": ["Cell switched network", "Circuit switched network", "Packet switched network", "All of these"], "ans": 2, "source": "upload"},
+      {"q": "FTP stands for:", "opts": ["Fine Transfer Protocol", "File Transfer Protocol", "File Transport Protocol", "Facility Transfer Protocol"], "ans": 1, "source": "upload"},
+      {"q": "Which of the following can be software?", "opts": ["Router", "Gateway", "Firewall", "Modem"], "ans": 2, "source": "upload"},
+      {"q": "The largest WAN in existence is:", "opts": ["Switch", "Router", "Internet", "Modem"], "ans": 2, "source": "upload"},
+      {"q": "Which device is a circuit board with microchips used for networking?", "opts": ["Workstation", "NIC", "Switch", "Router"], "ans": 1, "source": "upload"},
+      {"q": "Which of the following is NOT a networking device?", "opts": ["Gateway", "Linux", "Router", "Firewall"], "ans": 1, "source": "upload"},
+      {"q": "Which class of IP address is used for multicast groups?", "opts": ["Class A", "Class B", "Class C", "Class D"], "ans": 3, "source": "upload"},
     ],
     trueFalse:[
-      {q:"JavaScript is used to make web pages interactive.",ans:true},
-      {q:"A compiler translates code one line at a time.",ans:false},
-      {q:"Wi-Fi stands for Wireless Fidelity.",ans:true},
-      {q:"In binary, 1010 equals 10 in decimal.",ans:true},
-      {q:"RAM is faster than a hard disk.",ans:true},
-      {q:"CSS is used to structure web content.",ans:false},
-      {q:"A switch is used to connect devices in a LAN.",ans:true},
-      {q:"Encryption protects data from unauthorized access.",ans:true},
-      {q:"A flowchart is a diagram that represents an algorithm.",ans:true},
-      {q:"4G is slower than 3G mobile network.",ans:false},
-      {q:"An interpreter translates the entire code before running.",ans:false},
-      {q:"Malware is software designed to harm computers.",ans:true},
-      {q:"JPEG is a file format for images.",ans:true},
-      {q:"The keyboard shortcut to open a new browser tab is Ctrl+N.",ans:false},
-      {q:"HTML stands for Hyper Text Markup Language.",ans:true}
+      {"q": "A computer virus can damage data.", "ans": true, "source": "upload"},
+      {"q": "Trojan virus is a useful software.", "ans": false, "source": "upload"},
+      {"q": "Spyware steals personal information.", "ans": true, "source": "upload"},
+      {"q": "Worms need user action to spread.", "ans": false, "source": "upload"},
+      {"q": "Antivirus software protects computers.", "ans": true, "source": "upload"},
+      {"q": "Boot sector virus affects documents only.", "ans": false, "source": "upload"},
+      {"q": "Viruses can spread through pen drives.", "ans": true, "source": "upload"},
+      {"q": "Macro viruses affect MS Word files.", "ans": true, "source": "upload"},
+      {"q": "Updating antivirus is not necessary.", "ans": false, "source": "upload"},
+      {"q": "Computer viruses are harmless programs.", "ans": false, "source": "upload"},
+      {"q": "LAN stands for Local Area Network.", "ans": true, "source": "upload"},
+      {"q": "WAN covers small areas like home.", "ans": false, "source": "upload"},
+      {"q": "MAN stands for Metropolitan Area Network.", "ans": true, "source": "upload"},
+      {"q": "Client-Server model allows centralized control.", "ans": true, "source": "upload"},
+      {"q": "Switch and router perform the same function.", "ans": false, "source": "upload"},
+      {"q": "NIC is required to connect computer to network.", "ans": true, "source": "upload"},
+      {"q": "IP addresses are same for all computers.", "ans": false, "source": "upload"},
+      {"q": "Facebook is an Internet service.", "ans": true, "source": "upload"},
+      {"q": "A server is a client in network.", "ans": false, "source": "upload"},
+      {"q": "IP addressing classes range from A to E.", "ans": true, "source": "upload"},
     ],
     match:[
-      {a:"HTML",b:"Web Page Structure",opts:["Web Page Structure","Web Page Style","Web Interactivity","Database Query","Server Language"]},
-      {a:"CSS",b:"Web Page Style",opts:["Web Page Structure","Web Page Style","Web Interactivity","Database Query","Server Language"]},
-      {a:"JavaScript",b:"Web Interactivity",opts:["Web Page Structure","Web Page Style","Web Interactivity","Database Query","Server Language"]},
-      {a:"SQL",b:"Database Query",opts:["Web Page Structure","Web Page Style","Web Interactivity","Database Query","Server Language"]},
-      {a:"Star Topology",b:"Central Hub",opts:["Central Hub","Single Cable","Full Mesh","Ring Loop","Tree Branch"]},
-      {a:"Bus Topology",b:"Single Cable",opts:["Central Hub","Single Cable","Full Mesh","Ring Loop","Tree Branch"]},
-      {a:"Mesh Topology",b:"Full Mesh",opts:["Central Hub","Single Cable","Full Mesh","Ring Loop","Tree Branch"]},
-      {a:"Algorithm",b:"Step-by-step solution",opts:["Step-by-step solution","Data storage","Network device","Software type","Memory unit"]},
-      {a:"Flowchart",b:"Visual algorithm diagram",opts:["Visual algorithm diagram","Code editor","Search engine","Hardware device","Output unit"]},
-      {a:"Encryption",b:"Securing data",opts:["Securing data","Deleting data","Copying data","Formatting data","Transferring data"]},
-      {a:"DNS",b:"Domain Name System",opts:["Domain Name System","Digital Network Service","Data Node Server","Dynamic Name Syntax","Direct Network Switch"]},
-      {a:"IPv4",b:"32-bit IP address",opts:["32-bit IP address","64-bit IP address","128-bit IP address","16-bit IP address","8-bit IP address"]},
-      {a:"Phishing",b:"Identity Theft Scam",opts:["Identity Theft Scam","Virus Removal","Cloud Backup","Network Routing","File Compression"]},
-      {a:"Boolean",b:"True or False",opts:["True or False","Integer Number","Text String","Decimal Number","Date Value"]},
-      {a:"VPN",b:"Virtual Private Network",opts:["Virtual Private Network","Very Public Node","Verified Packet Network","Virtual Public Network","Video Processing Node"]}
+      {"a": "Trojan", "b": "Disguised harmful program", "source": "upload"},
+      {"a": "Spyware", "b": "Steals user information", "source": "upload"},
+      {"a": "Worm", "b": "Self spreading virus", "source": "upload"},
+      {"a": "Boot Sector Virus", "b": "Affects booting process", "source": "upload"},
+      {"a": "Macro Virus", "b": "Infects document files", "source": "upload"},
+      {"a": "Antivirus", "b": "Removes viruses", "source": "upload"},
+      {"a": "Polymorphic Virus", "b": "Changes its code", "source": "upload"},
+      {"a": "LAN", "b": "Local Area Network", "source": "upload"},
+      {"a": "WAN", "b": "Wide Area Network", "source": "upload"},
+      {"a": "MAN", "b": "Metropolitan Area Network", "source": "upload"},
+      {"a": "NIC", "b": "Network Interface Card", "source": "upload"},
+      {"a": "Switch", "b": "Connects devices in network", "source": "upload"},
+      {"a": "Router", "b": "Connects different networks", "source": "upload"},
+      {"a": "IP Address", "b": "Unique address of device", "source": "upload"},
     ],
     answer:[
-      {q:"What does 'debugging' mean in programming?",opts:["Writing new code","Finding and fixing errors in code","Deleting old code","Compiling code"],ans:1},
-      {q:"Which data structure works on LIFO principle?",opts:["Queue","Array","Stack","Tree"],ans:2},
-      {q:"What is the decimal value of binary 1101?",opts:["11","12","13","14"],ans:2},
-      {q:"Which protocol assigns IP addresses automatically?",opts:["DNS","FTP","DHCP","SMTP"],ans:2},
-      {q:"What is 'pseudocode'?",opts:["Machine language","Informal description of algorithm steps","A virus type","A database language"],ans:1},
-      {q:"What does RGB stand for?",opts:["Real Graphics Bytes","Red Green Blue","Random Generated Bits","Red Gray Black"],ans:1},
-      {q:"What is the purpose of a loop in programming?",opts:["Define variables","Store data","Repeat a set of instructions","Connect to network"],ans:2},
-      {q:"Which file format is used for lossless image compression?",opts:["JPEG","MP3","PNG","AVI"],ans:2},
-      {q:"What does 'cloud computing' mean?",opts:["Weather prediction software","Storing and accessing data via the internet","A type of RAM","Server virus"],ans:1},
-      {q:"What is a 'variable' in programming?",opts:["A fixed number","A named storage location for data","A type of loop","An error in code"],ans:1},
-      {q:"Which HTML tag is used for the largest heading?",opts:["<h6>","<h1>","<h3>","<head>"],ans:1},
-      {q:"What does 'resolution' mean in display?",opts:["Color depth","Number of pixels on screen","Refresh rate","Screen size in inches"],ans:1},
-      {q:"What is a cookie in web browsing?",opts:["A type of malware","Small data stored by a website on your browser","A web browser","A download manager"],ans:1},
-      {q:"What is the full form of API?",opts:["Application Programming Interface","Automated Protocol Integration","Application Process Input","Advanced Programming Index"],ans:0},
-      {q:"Which sorting algorithm repeatedly swaps adjacent elements?",opts:["Quick Sort","Merge Sort","Bubble Sort","Selection Sort"],ans:2}
-    ]
+      {"q": "What is the full form of LAN?", "opts": ["Local Area Network", "Large Area Network", "Long Area Network", "Link Area Network"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of WAN?", "opts": ["World Area Network", "Wide Area Network", "Web Area Network", "Wireless Area Network"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of MAN?", "opts": ["Main Area Network", "Metropolitan Area Network", "Multi Area Network", "Machine Area Network"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of NIC?", "opts": ["Network Interface Card", "Network Internet Card", "Network Internal Card", "Network Input Card"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of IP?", "opts": ["Internet Process", "Internet Protocol", "Internal Program", "Input Program"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of PC?", "opts": ["Personal Computer", "Private Computer", "Program Computer", "Public Computer"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of WWW?", "opts": ["World Wide Web", "World Web Wide", "Web World Wide", "Wide Web World"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of URL?", "opts": ["Uniform Resource Locator", "Universal Resource Link", "Unique Resource Link", "Uniform Resource Link"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of HTTP?", "opts": ["HyperText Transfer Protocol", "Hyper Transfer Text Protocol", "High Transfer Text Protocol", "Hyper Tool Transfer Protocol"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of HTTPS?", "opts": ["HyperText Transfer Protocol Secure", "Hyper Transfer Protocol Safe", "HyperText Transfer Program Secure", "High Transfer Protocol Secure"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of DNS?", "opts": ["Domain Name System", "Data Name System", "Digital Network System", "Domain Network Service"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of SMTP?", "opts": ["Simple Mail Transfer Protocol", "Secure Mail Transfer Protocol", "System Mail Transfer Program", "Server Mail Transfer Program"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of FTP?", "opts": ["File Transfer Protocol", "File Transport Protocol", "Fast Transfer Program", "File Tool Protocol"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of Wi-Fi?", "opts": ["Wireless Fidelity", "Wide Fidelity", "Wireless File", "Web Fidelity"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of ISP?", "opts": ["Internet Service Provider", "Internet System Provider", "Internal Service Provider", "Internet Support Program"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of AV?", "opts": ["Antivirus", "Audio Video", "Application Virus", "Anti Virtual"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of CPU?", "opts": ["Central Processing Unit", "Central Program Unit", "Computer Processing Unit", "Control Processing Unit"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of OS?", "opts": ["Operating System", "Online System", "Operating Software", "Output System"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of RAM?", "opts": ["Random Access Memory", "Read Access Memory", "Run Access Memory", "Random Active Memory"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of ROM?", "opts": ["Read Only Memory", "Random Only Memory", "Read Output Memory", "Run Only Memory"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of HDD?", "opts": ["Hard Disk Drive", "Hard Data Drive", "High Disk Drive", "Hard Digital Drive"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of USB?", "opts": ["Universal Serial Bus", "Universal System Bus", "Unique Serial Bus", "Universal Service Bus"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of GUI?", "opts": ["Graphical User Interface", "Graphical Utility Interface", "Graphic User Internet", "Graphical Unit Interface"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of IT?", "opts": ["Information Technology", "Internet Technology", "Internal Technology", "Intelligent Technology"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of CD?", "opts": ["Compact Disc", "Computer Disc", "Central Disc", "Control Disc"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of DVD?", "opts": ["Digital Versatile Disc", "Digital Video Disc", "Data Versatile Disc", "Digital Virtual Disc"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of MS?", "opts": ["Microsoft", "Micro System", "Multi System", "Main System"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of PDF?", "opts": ["Portable Document Format", "Personal Document File", "Program Document Format", "Portable Data File"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of BIOS?", "opts": ["Basic Input Output System", "Binary Input Output System", "Basic Internal Output System", "Binary Internal Operating System"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of GPU?", "opts": ["Graphics Processing Unit", "Graphic Program Unit", "General Processing Unit", "Graphical Processor Unit"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of SSD?", "opts": ["Solid State Drive", "Solid Storage Disk", "Secure Storage Device", "System Storage Drive"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of HTML?", "opts": ["HyperText Markup Language", "Hyper Transfer Markup Language", "Hyper Tool Markup Language", "High Text Markup Language"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of CSS?", "opts": ["Cascading Style Sheets", "Computer Style Sheets", "Cascading System Sheets", "Color Style Sheets"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of DBMS?", "opts": ["Database Management System", "Data Base Management Service", "Digital Base Management System", "Data Backup Management System"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of AI?", "opts": ["Artificial Intelligence", "Automatic Intelligence", "Advanced Internet", "Artificial Internet"], "ans": 0, "source": "upload"},
+    ],
   },
-
-  // ── STD VIII — Advanced & Applied ICT ────────────────────────
-  VIII: {
+  // ── STD VIII ──────────────────────────────────────────────────
+  "VIII": {
     mcq:[
-      {q:"What is 'Artificial Intelligence'?",opts:["Internet security","Simulation of human intelligence by machines","A type of hardware","Online shopping"],ans:1},
-      {q:"Which of these is an example of Machine Learning?",opts:["Printing a document","Spam email detection","Saving a file","Changing screen brightness"],ans:1},
-      {q:"What does OOP stand for?",opts:["Object Oriented Programming","Online Output Processing","Ordered Output Procedure","Object Online Platform"],ans:0},
-      {q:"What is the main advantage of using a database?",opts:["Better graphics","Organized and efficient data management","Faster internet","Larger storage"],ans:1},
-      {q:"What is 'Big Data'?",opts:["Large physical storage devices","Extremely large datasets that need special processing","A type of RAM","Cloud file storage"],ans:1},
-      {q:"What does IoT stand for?",opts:["Internet of Things","Integrated Output Technology","Internet of Technology","Input Output Terminal"],ans:0},
-      {q:"Which of these is a cybersecurity threat?",opts:["Antivirus software","Firewall","Ransomware","Strong password"],ans:2},
-      {q:"What is 'blockchain' technology primarily used for?",opts:["Image editing","Secure distributed record-keeping","Video streaming","Social media"],ans:1},
-      {q:"What does AR stand for in technology?",opts:["Automated Routing","Augmented Reality","Artificial Reasoning","Advanced Resolution"],ans:1},
-      {q:"In Python, which symbol is used for single-line comments?",opts:["//","--","#","/*"],ans:2},
-      {q:"What is the function of an 'array' in programming?",opts:["Store a single value","Store multiple values of same type","Connect to network","Format a disk"],ans:1},
-      {q:"What does SQL stand for?",opts:["Structured Query Language","Simple Question Logic","System Query Loop","Standard Question Language"],ans:0},
-      {q:"What is 'responsive web design'?",opts:["Fast loading website","Website that adapts to different screen sizes","Website with animations","Website without images"],ans:1},
-      {q:"Which protocol secures communication on the web?",opts:["HTTP","FTP","HTTPS","SMTP"],ans:2},
-      {q:"What is 'two-factor authentication'?",opts:["Using two passwords","Using password + a second verification method","Using two email accounts","Logging in twice"],ans:1}
+      {"q": "Which of the following is NOT a valid border-style property value?", "opts": ["dotted", "inset", "groove", "glazed"], "ans": 3, "source": "upload"},
+      {"q": "Which of the following is NOT a valid CSS length unit?", "opts": ["cm", "dm", "em", "mm"], "ans": 1, "source": "upload"},
+      {"q": "Which CSS property changes the color of the right border?", "opts": ["border-top-color", "border-left-color", "border-right-color", "border-bottom-color"], "ans": 2, "source": "upload"},
+      {"q": "Which two are the remaining generic font family values besides serif, sans-serif and monospace?", "opts": ["cursive", "fantasy", "Both A and B", "None"], "ans": 2, "source": "upload"},
+      {"q": "Which property is used to set the opacity of an image?", "opts": ["border", "width", "height", "opacity"], "ans": 3, "source": "upload"},
+      {"q": "Which HTML attribute is used to define inline styles?", "opts": ["class", "styles", "style", "font"], "ans": 2, "source": "upload"},
+      {"q": "Which of the following is NOT one of the 16 basic CSS color keywords?", "opts": ["olive", "cyan", "fuchsia", "aqua"], "ans": 1, "source": "upload"},
+      {"q": "Which is the correct way to set font size in CSS?", "opts": ["font-size:200", "font-size:200px", "size:200", "text-size:200"], "ans": 1, "source": "upload"},
+      {"q": "Which of the following is a disadvantage of CSS?", "opts": ["Low performance", "Browser compatibility issues", "Complexity", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Where should an external CSS file be linked in HTML?", "opts": ["End of document", "Top of document", "Inside head section", "Anywhere"], "ans": 2, "source": "upload"},
+      {"q": "Which of the following are types of network topology?", "opts": ["Star", "Bus", "Ring", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "The topology that supports bi-directional links between each node is:", "opts": ["Ring", "Star", "Tree", "Mesh"], "ans": 3, "source": "upload"},
+      {"q": "Combination of star and mesh topology is called:", "opts": ["Ring", "Bus", "Hybrid", "All of these"], "ans": 2, "source": "upload"},
+      {"q": "A WAN developed using other transmission facilities is called:", "opts": ["Multi-peer", "Peer-to-peer", "Two-tiered", "Three-tiered"], "ans": 1, "source": "upload"},
+      {"q": "Which of the following are transmission media?", "opts": ["Wire", "Optical cable", "Coaxial cable", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Network built on top of another network is called:", "opts": ["Chief network", "Prime network", "Prior network", "Overlay network"], "ans": 3, "source": "upload"},
+      {"q": "In which topology does each device connect to all other devices?", "opts": ["Mesh", "Star", "Bus", "Ring"], "ans": 0, "source": "upload"},
+      {"q": "Which of the following is NOT a network component?", "opts": ["Hub", "Switch", "Bridge", "FTP"], "ans": 3, "source": "upload"},
+      {"q": "Which device connects two systems using different protocols?", "opts": ["Repeater", "Gateway", "Bridge", "Hub"], "ans": 1, "source": "upload"},
+      {"q": "Which of the following are services provided by cloud computing?", "opts": ["Data storage", "Servers", "Databases", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "______ computing refers to services on distributed networks using virtual resources.", "opts": ["Distributed", "Cloud", "Soft", "Parallel"], "ans": 1, "source": "upload"},
+      {"q": "Microsoft Office 365 is an example of:", "opts": ["IaaS", "PaaS", "SaaS", "MaaS"], "ans": 2, "source": "upload"},
+      {"q": "Which of the following is an essential cloud computing concept?", "opts": ["Reliability", "Abstraction", "Productivity", "All of the mentioned"], "ans": 3, "source": "upload"},
+      {"q": "Framework that includes Microsoft Azure and IBM Cloud is:", "opts": ["SaaS", "PaaS", "IaaS", "All"], "ans": 2, "source": "upload"},
+      {"q": "Amazon cloud platform is called:", "opts": ["Azure", "AWS", "Cloudera", "GCP"], "ans": 1, "source": "upload"},
+      {"q": "Major cloud service providers include:", "opts": ["Amazon", "Google", "IBM", "All of these"], "ans": 3, "source": "upload"},
+      {"q": "Which is NOT a benefit of cloud computing?", "opts": ["Pay-as-you-go", "Infinite scalability", "Reduced Internet dependency", "Universal availability"], "ans": 2, "source": "upload"},
+      {"q": "In Microsoft data centers each server contains a:", "opts": ["Supervisor", "Manager", "Hypervisor", "All"], "ans": 2, "source": "upload"},
+      {"q": "AWS belongs to which cloud model?", "opts": ["SaaS", "PaaS", "IaaS", "FaaS"], "ans": 2, "source": "upload"},
     ],
     trueFalse:[
-      {q:"Python is an object-oriented programming language.",ans:true},
-      {q:"Blockchain data can be easily modified after entry.",ans:false},
-      {q:"IoT connects physical devices to the internet.",ans:true},
-      {q:"A primary key in a database must be unique.",ans:true},
-      {q:"Machine learning requires data to train models.",ans:true},
-      {q:"HTTPS is less secure than HTTP.",ans:false},
-      {q:"VR stands for Virtual Reality.",ans:true},
-      {q:"An array index typically starts at 1 in most languages.",ans:false},
-      {q:"Big Data refers only to data stored on USB drives.",ans:false},
-      {q:"Ransomware encrypts files and demands payment.",ans:true},
-      {q:"OOP stands for Object Oriented Programming.",ans:true},
-      {q:"In Python, indentation is used to define code blocks.",ans:true},
-      {q:"A router operates at the Network layer of the OSI model.",ans:true},
-      {q:"Augmented Reality completely replaces the real environment.",ans:false},
-      {q:"SQL is used for managing relational databases.",ans:true}
+      {"q": "A hub is an intelligent networking device.", "ans": false, "source": "upload"},
+      {"q": "In client-server architecture the server controls the network.", "ans": true, "source": "upload"},
+      {"q": "NIC helps computer connect to network.", "ans": true, "source": "upload"},
+      {"q": "In star topology all devices connect to central device.", "ans": true, "source": "upload"},
+      {"q": "Mesh topology uses only one communication path.", "ans": false, "source": "upload"},
+      {"q": "FTP transfers files over network.", "ans": true, "source": "upload"},
+      {"q": "LAN covers very large area.", "ans": false, "source": "upload"},
+      {"q": "Router connects different networks.", "ans": true, "source": "upload"},
+      {"q": "Ring topology allows circular data flow.", "ans": true, "source": "upload"},
+      {"q": "Switch broadcasts data like hub.", "ans": false, "source": "upload"},
+      {"q": "Cloud computing always requires internet.", "ans": true, "source": "upload"},
+      {"q": "Cloud data cannot be shared.", "ans": false, "source": "upload"},
+      {"q": "SaaS provides ready software.", "ans": true, "source": "upload"},
+      {"q": "Private cloud is shared by public.", "ans": false, "source": "upload"},
+      {"q": "Google Cloud is a cloud provider.", "ans": true, "source": "upload"},
+      {"q": "Cloud computing reduces physical storage need.", "ans": true, "source": "upload"},
+      {"q": "Cloud services are always free.", "ans": false, "source": "upload"},
+      {"q": "IaaS provides virtual machines and storage.", "ans": true, "source": "upload"},
+      {"q": "Cloud computing supports scalability.", "ans": true, "source": "upload"},
+      {"q": "Cloud data can be accessed anywhere with internet.", "ans": true, "source": "upload"},
     ],
     match:[
-      {a:"AI",b:"Artificial Intelligence",opts:["Artificial Intelligence","Virtual Reality","Machine Code","Network Security","Big Dataset"]},
-      {a:"IoT",b:"Internet of Things",opts:["Internet of Things","Integrated Output Terminal","Input Output Tech","Intelligent Online Tool","Internet of Terminals"]},
-      {a:"VR",b:"Virtual Reality",opts:["Virtual Reality","Variable Resolution","Verified Record","Video Rendering","Voice Recognition"]},
-      {a:"SQL",b:"Database Language",opts:["Database Language","Web Design Language","Mobile Language","System Language","Script Language"]},
-      {a:"Python",b:"High-level Language",opts:["High-level Language","Low-level Language","Machine Language","Assembly Language","Script Language"]},
-      {a:"Class",b:"OOP Blueprint",opts:["OOP Blueprint","Algorithm","Database","Network Device","File System"]},
-      {a:"Object",b:"Instance of Class",opts:["Instance of Class","Type of loop","Network node","Database table","File format"]},
-      {a:"Loop",b:"Repeat instructions",opts:["Repeat instructions","Store data","Define class","Connect network","Encrypt data"]},
-      {a:"Encryption",b:"Data Security",opts:["Data Security","Data Deletion","Data Transfer","Data Formatting","Data Display"]},
-      {a:"Big Data",b:"Large-scale datasets",opts:["Large-scale datasets","Small storage","Single file","RAM memory","Input device"]},
-      {a:"Machine Learning",b:"Training on data",opts:["Training on data","Manual programming","Hardware design","Network routing","File management"]},
-      {a:"Blockchain",b:"Distributed ledger",opts:["Distributed ledger","Centralized server","RAM type","Video codec","Image format"]},
-      {a:"API",b:"Interface between apps",opts:["Interface between apps","Physical connector","Screen display","Keyboard layout","Power supply"]},
-      {a:"Ransomware",b:"Encrypts & demands ransom",opts:["Encrypts & demands ransom","Speeds up computer","Removes viruses","Backs up data","Updates software"]},
-      {a:"2FA",b:"Two-factor Authentication",opts:["Two-factor Authentication","Two-frequency Access","Two-file Archive","Transfer File Automation","Terminal File Address"]}
+      {"a": "Hub", "b": "Connects devices blindly", "source": "upload"},
+      {"a": "Switch", "b": "Sends data intelligently", "source": "upload"},
+      {"a": "Router", "b": "Connects different networks", "source": "upload"},
+      {"a": "Star Topology", "b": "Central connecting device", "source": "upload"},
+      {"a": "Ring Topology", "b": "Circular data flow", "source": "upload"},
+      {"a": "LAN", "b": "Small area network", "source": "upload"},
+      {"a": "FTP", "b": "File transfer protocol", "source": "upload"},
+      {"a": "IaaS", "b": "Virtual hardware", "source": "upload"},
+      {"a": "PaaS", "b": "Application platform", "source": "upload"},
+      {"a": "SaaS", "b": "Online software", "source": "upload"},
+      {"a": "Public Cloud", "b": "Shared cloud", "source": "upload"},
+      {"a": "Private Cloud", "b": "Single organization", "source": "upload"},
+      {"a": "AWS", "b": "Amazon cloud", "source": "upload"},
+      {"a": "Google Cloud", "b": "Google services", "source": "upload"},
     ],
     answer:[
-      {q:"What is 'inheritance' in OOP?",opts:["Creating a new class","A class deriving properties from another class","Storing data in arrays","Deleting an object"],ans:1},
-      {q:"What is 'polymorphism' in programming?",opts:["Same variable name, different types","One function having many forms","A type of array","A network protocol"],ans:1},
-      {q:"Which Python data type is immutable?",opts:["List","Dictionary","Set","Tuple"],ans:3},
-      {q:"What is the function of a 'primary key' in SQL?",opts:["Store passwords","Uniquely identify each record","Connect tables","Sort data"],ans:1},
-      {q:"What is the output of: print(2 ** 3) in Python?",opts:["6","8","9","5"],ans:1},
-      {q:"Which OSI layer is responsible for routing?",opts:["Physical","Data Link","Network","Transport"],ans:2},
-      {q:"What is 'DevOps'?",opts:["A programming language","Combining software development and operations","A type of database","A cybersecurity tool"],ans:1},
-      {q:"Which sorting has O(n log n) average complexity?",opts:["Bubble Sort","Selection Sort","Insertion Sort","Merge Sort"],ans:3},
-      {q:"What is a 'JOIN' operation in SQL?",opts:["Delete rows","Combine rows from two tables","Create a new database","Sort records"],ans:1},
-      {q:"What is 'machine code'?",opts:["Python code","Code written in binary that CPU executes directly","HTML code","High-level language"],ans:1},
-      {q:"What does 'encapsulation' mean in OOP?",opts:["Hiding data and functions inside a class","Linking two classes","Creating objects","Deleting variables"],ans:0},
-      {q:"What is the purpose of 'try-except' in Python?",opts:["Loop control","Handle runtime errors","Import modules","Define functions"],ans:1},
-      {q:"Which data structure uses FIFO principle?",opts:["Stack","Queue","Tree","Graph"],ans:1},
-      {q:"What is 'latency' in networking?",opts:["Network speed","Delay in data transmission","Bandwidth capacity","Data encryption"],ans:1},
-      {q:"What does CI/CD stand for in software development?",opts:["Computer Interface/Code Design","Continuous Integration/Continuous Deployment","Code Inspection/Code Delivery","Central Integration/Code Development"],ans:1}
-    ]
-  }
+      {"q": "What is the full form of AWS?", "opts": ["Amazon Web System", "Amazon Web Services", "Advanced Web Service", "Application Web Server"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of SaaS?", "opts": ["Software as a Service", "System as a Service", "Server as a System", "Service as Software"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of PaaS?", "opts": ["Platform as a Service", "Program as a Service", "Process as a Service", "Platform and Software"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of IaaS?", "opts": ["Internet as a Service", "Infrastructure as a Service", "Interface as a Service", "Information as a Service"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of VM?", "opts": ["Virtual Memory", "Visual Machine", "Virtual Machine", "Variable Machine"], "ans": 2, "source": "upload"},
+      {"q": "What is the full form of CPU?", "opts": ["Central Process Unit", "Central Processing Unit", "Computer Processing Unit", "Control Processing Unit"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of RAM?", "opts": ["Random Access Memory", "Rapid Access Memory", "Read Access Memory", "Run Access Memory"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of SLA?", "opts": ["Service Level Agreement", "System Level Access", "Server Level Agreement", "Software Level Access"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of API?", "opts": ["Application Program Interface", "Application Programming Interface", "Advanced Program Interface", "Application Process Interface"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of CDN?", "opts": ["Content Data Network", "Content Delivery Network", "Central Data Network", "Computer Data Network"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of DB?", "opts": ["Data Bank", "Database", "Data Base System", "Digital Base"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of OS?", "opts": ["Operating System", "Open System", "Online System", "Output System"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of MFA?", "opts": ["Multi Factor Authentication", "Multiple File Access", "Main Function Access", "Multi Format Access"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of IDC?", "opts": ["Internet Data Center", "Internal Data Control", "Internet Device Center", "Integrated Data Computer"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of LAN?", "opts": ["Local Area Network", "Large Area Network", "Long Area Network", "Link Area Network"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of WAN?", "opts": ["Wide Area Network", "Wireless Area Network", "Web Area Network", "World Area Network"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of MAN?", "opts": ["Metropolitan Area Network", "Main Area Network", "Multi Area Network", "Medium Area Network"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of NIC?", "opts": ["Network Interface Card", "Network Internet Card", "Network Internal Card", "Network Information Card"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of TCP?", "opts": ["Transmission Control Protocol", "Transfer Control Protocol", "Transport Computer Protocol", "Transmission Communication Process"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of IP?", "opts": ["Internet Program", "Internet Protocol", "Internal Protocol", "Information Protocol"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of FTP?", "opts": ["File Transfer Protocol", "File Transport Program", "Fast Transfer Protocol", "File Transmission Program"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of HTTP?", "opts": ["Hyper Transfer Text Protocol", "HyperText Transfer Protocol", "High Transfer Text Protocol", "Hyper Tool Transfer Protocol"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of HTTPS?", "opts": ["HyperText Transfer Protocol Secure", "Hyper Transfer Text Process Secure", "Hyper Tool Transfer Protocol System", "High Transfer Protocol Secure"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of ISP?", "opts": ["Internet Service Provider", "Internet System Provider", "Internal Service Provider", "Internet Software Provider"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of MAC?", "opts": ["Machine Access Control", "Media Access Control", "Main Access Control", "Memory Access Control"], "ans": 1, "source": "upload"},
+      {"q": "What is the full form of URL?", "opts": ["Uniform Resource Locator", "Universal Resource Locator", "Unique Resource Locator", "Uniform Reference Locator"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of DNS?", "opts": ["Domain Name System", "Data Name System", "Digital Network System", "Domain Network Service"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of PAN?", "opts": ["Personal Area Network", "Public Area Network", "Private Area Network", "Primary Area Network"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of WLAN?", "opts": ["Wireless Local Area Network", "Wide Local Area Network", "Wireless Link Area Network", "Web Local Area Network"], "ans": 0, "source": "upload"},
+      {"q": "What is the full form of SaaS (Software as a Service)?", "opts": ["Software as a Service", "Server as a System", "System as a Service", "Service as Software"], "ans": 0, "source": "upload"},
+    ],
+  },
 };
 
+const STD_BANKS_VERSION = '3'; // v3: aligned with exam pattern 15/10/5/10
 function loadStdBanks() {
-  const saved = localStorage.getItem('ict_std_banks');
-  if (saved) return JSON.parse(saved);
+  try {
+    const raw = localStorage.getItem('ict_std_banks');
+    if (raw) {
+      const saved = JSON.parse(raw);
+      // Reset if old default questions (pre-v2 bank without version tag)
+      if (saved && saved._v === STD_BANKS_VERSION) {
+        const { _v, ...banks } = saved;
+        return banks;
+      }
+    }
+  } catch(e) {}
+  // Build fresh from defaults
   const banks = {};
   ['V','VI','VII','VIII'].forEach(s => {
     banks[s] = JSON.parse(JSON.stringify(DEFAULT_QB_PER_STD[s] || DEFAULT_QB_PER_STD.V));
@@ -2308,7 +2549,10 @@ function loadStdBanks() {
   return banks;
 }
 function saveStdBanks() {
-  localStorage.setItem('ict_std_banks', JSON.stringify(STD_QUESTION_BANKS));
+  const payload = Object.assign({}, STD_QUESTION_BANKS, { _v: STD_BANKS_VERSION });
+  localStorage.setItem('ict_std_banks', JSON.stringify(payload));
+  // Auto-push to Google Sheets silently on every save (no toast spam)
+  sheetsPushQuestions(true);
 }
 
 function loadExamControl() {
@@ -2354,21 +2598,24 @@ function getExamQuestions(std) {
   const paperId = ACTIVE_PAPERS[std];
   const paper   = paperId ? PAPER_LIBRARY.find(p=>p.id===paperId&&p.std===std) : null;
   if (paper) {
-    const s = paper.settings || { mcqShow:10, tfShow:10, matchShow:10, ansShow:10 };
+    const s = paper.settings || { mcqShow:15, tfShow:10, matchShow:5,  ansShow:10 };
+    // Return match WITHOUT pre-built opts — startExam() builds 4-option sets dynamically
     return {
       mcq:      shuffle([...paper.sections.mcq])     .slice(0, Math.min(s.mcqShow,   paper.sections.mcq.length)),
       trueFalse:shuffle([...paper.sections.trueFalse]).slice(0, Math.min(s.tfShow,    paper.sections.trueFalse.length)),
-      match:    shuffle([...paper.sections.match])   .slice(0, Math.min(s.matchShow,  paper.sections.match.length)),
+      match:    shuffle([...paper.sections.match])   .slice(0, Math.min(s.matchShow,  paper.sections.match.length))
+                  .map(q => ({ a: q.a, b: q.b, source: q.source })), // strip old opts
       answer:   shuffle([...paper.sections.answer])  .slice(0, Math.min(s.ansShow,    paper.sections.answer.length)),
     };
   }
-  // Fallback to live bank
-  const QB = STD_QUESTION_BANKS[std] || STD_QUESTION_BANKS['V'];
+  // Fallback to live bank — always use EXAM_SETTINGS counts (15 MCQ / 10 T/F / 5 Match / 10 FF)
+  const QB  = STD_QUESTION_BANKS[std] || STD_QUESTION_BANKS['V'];
+  const _ES = loadExamSettings();
   return {
-    mcq:       shuffle([...QB.mcq])      .slice(0, Math.min(10, QB.mcq.length)),
-    trueFalse: shuffle([...QB.trueFalse]).slice(0, Math.min(10, QB.trueFalse.length)),
-    match:     shuffle([...QB.match])    .slice(0, Math.min(10, QB.match.length)),
-    answer:    shuffle([...QB.answer])   .slice(0, Math.min(10, QB.answer.length)),
+    mcq:       shuffle([...QB.mcq])      .slice(0, Math.min(_ES.sections[0].qCount, QB.mcq.length)),
+    trueFalse: shuffle([...QB.trueFalse]).slice(0, Math.min(_ES.sections[1].qCount, QB.trueFalse.length)),
+    match:     shuffle([...QB.match])    .slice(0, Math.min(_ES.sections[2].qCount, QB.match.length)),
+    answer:    shuffle([...QB.answer])   .slice(0, Math.min(_ES.sections[3].qCount, QB.answer.length)),
   };
 }
 
@@ -2379,22 +2626,27 @@ function getExamQuestions(std) {
 // Loaded from localStorage key 'ict_exam_settings', defaults below
 const DEFAULT_EXAM_SETTINGS = {
   sections: [
-    { key:'mcq',       name:'MCQ',          icon:'📝', qCount:10, marksPerQ:1, color:'#3949ab' },
+    { key:'mcq',       name:'MCQ',          icon:'📝', qCount:15, marksPerQ:1, color:'#3949ab' },
     { key:'trueFalse', name:'True/False',   icon:'✅', qCount:10, marksPerQ:1, color:'#00838f' },
-    { key:'match',     name:'Match',        icon:'🔗', qCount:10, marksPerQ:1, color:'#2e7d32' },
+    { key:'match',     name:'Match',        icon:'🔗', qCount:5,  marksPerQ:1, color:'#2e7d32' },
     { key:'answer',    name:'Full Form',    icon:'💡', qCount:10, marksPerQ:1, color:'#e65100' },
   ],
   durationMinutes: 45,
 };
 
+const EXAM_SETTINGS_VERSION = '3'; // v3: 15MCQ/10TF/5Match/10FF = 40Q/40M
 function loadExamSettings() {
   try {
     const s = JSON.parse(localStorage.getItem('ict_exam_settings') || 'null');
-    if (s && s.sections && s.durationMinutes) return s;
+    // Reset if version mismatch (old 10/10/10/10 pattern -> new 15/10/5/10)
+    if (s && s.sections && s.durationMinutes && s._v === EXAM_SETTINGS_VERSION) return s;
   } catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT_EXAM_SETTINGS));
+  const def = JSON.parse(JSON.stringify(DEFAULT_EXAM_SETTINGS));
+  def._v = EXAM_SETTINGS_VERSION;
+  return def;
 }
 function saveExamSettings(s) {
+  s._v = EXAM_SETTINGS_VERSION;
   localStorage.setItem('ict_exam_settings', JSON.stringify(s));
 }
 function getExamTotalMarks(settings) {
@@ -2615,21 +2867,55 @@ function startExam() {
   EXAM_SETTINGS = loadExamSettings(); // reload fresh settings
   const QB  = getExamQuestions(std);
 
-  // Apply per-section question count from EXAM_SETTINGS
-  const cfg = EXAM_SETTINGS.sections;
-  const mcqCount   = Math.min(cfg[0].qCount, QB.mcq.length);
-  const tfCount    = Math.min(cfg[1].qCount, QB.trueFalse.length);
-  const matchCount = Math.min(cfg[2].qCount, QB.match.length);
-  const ansCount   = Math.min(cfg[3].qCount, QB.answer.length);
+  // getExamQuestions() already returned exactly the right number of
+  // randomly-selected questions from the pool (Layer 1 shuffle).
+  // These counts are used for Layer 2+ shuffles below.
+  const cfg      = EXAM_SETTINGS.sections;
+  const mcqCount   = QB.mcq.length;       // already capped to cfg[0].qCount
+  const tfCount    = QB.trueFalse.length; // already capped to cfg[1].qCount
+  const matchCount = QB.match.length;     // already capped to cfg[2].qCount
+  const ansCount   = QB.answer.length;    // already capped to cfg[3].qCount
 
-  examState.sections[0].questions = QB.mcq.slice(0,mcqCount).map(q => {
-    const shuffledOpts = shuffle(q.opts.map((o,i) => ({ text:o, orig:i })));
+  // ── LAYER 1: pool already shuffled + sliced in getExamQuestions()
+  //   (each PC gets a different random subset from the pool)
+  // ── LAYER 2: shuffle question ORDER within each section
+  //   (same question appears at different position on each PC)
+  // ── LAYER 3: shuffle MCQ / Full-Form OPTION ORDER per question
+  //   (A/B/C/D order is different on each PC)
+  // ── LAYER 4: shuffle Match dropdown OPTIONS per question
+  //   (answer list appears in different order on each PC)
+
+  examState.sections[0].questions = shuffle(QB.mcq.slice(0, mcqCount)).map(q => {
+    // Layer 3 — shuffle A/B/C/D options, track which orig index is correct
+    const shuffledOpts = shuffle(q.opts.map((o, i) => ({ text: o, orig: i })));
     return { ...q, shuffledOpts, shuffledAns: shuffledOpts.findIndex(o => o.orig === q.ans) };
   });
-  examState.sections[1].questions = QB.trueFalse.slice(0,tfCount);
-  examState.sections[2].questions = QB.match.slice(0,matchCount);
-  examState.sections[3].questions = QB.answer.slice(0,ansCount).map(q => {
-    const shuffledOpts = shuffle(q.opts.map((o,i) => ({ text:o, orig:i })));
+
+  examState.sections[1].questions = shuffle(QB.trueFalse.slice(0, tfCount));
+  // (True/False has no options to shuffle — only True & False)
+
+  // Build match opts dynamically per student:
+  // Each question gets exactly 4 options: 1 correct (q.b) + 3 random wrong answers
+  // Wrong answers are picked from the full pool of OTHER b-values in the bank
+  // This means each PC gets different wrong options → unique experience
+  const _allMatchAnswers = STD_QUESTION_BANKS[std]
+    ? STD_QUESTION_BANKS[std].match.map(m => m.b).filter(Boolean)
+    : QB.match.map(m => m.b);
+
+  examState.sections[2].questions = shuffle(QB.match.slice(0, matchCount)).map(q => {
+    const correct  = q.b;
+    // Pool of wrong answers = all b-values except this question's correct answer
+    const wrongPool = shuffle(_allMatchAnswers.filter(b => b !== correct));
+    // Take 3 wrong answers
+    const wrongs   = wrongPool.slice(0, 3);
+    // Build 4 opts: correct + 3 wrongs, then shuffle the order
+    const opts4    = shuffle([correct, ...wrongs]);
+    return { ...q, opts: opts4 };
+  });
+
+  examState.sections[3].questions = shuffle(QB.answer.slice(0, ansCount)).map(q => {
+    // Layer 3 — shuffle A/B/C/D options for Full Form questions
+    const shuffledOpts = shuffle(q.opts.map((o, i) => ({ text: o, orig: i })));
     return { ...q, shuffledOpts, shuffledAns: shuffledOpts.findIndex(o => o.orig === q.ans) };
   });
 
@@ -2753,11 +3039,8 @@ const examWindowLock = {
   stop() {
     this._active = false;
     this._removeOverlay();
-
-    // Exit fullscreen
-    if (document.fullscreenElement && document.exitFullscreen) {
-      document.exitFullscreen().catch(() => {});
-    }
+    // Note: exitFullscreen is handled by submitExam() before calling stop()
+    // to ensure the result page shows correctly after fullscreen exits.
 
     // Remove all handlers
     if (this._handlers.visibility) document.removeEventListener('visibilitychange', this._handlers.visibility);
@@ -3278,32 +3561,42 @@ function showSubmitModal() {
   document.getElementById('submit-modal').style.display = 'flex';
 }
 
+
+// ── SUBMIT PROCESSING OVERLAY ───────────────────────────────
+function _showSubmitProcessing() {
+  let el = document.getElementById('submit-processing-overlay');
+  if (el) return;
+  el = document.createElement('div');
+  el.id = 'submit-processing-overlay';
+  el.style.cssText = 'position:fixed;inset:0;background:rgba(26,35,126,.92);z-index:999999;' +
+    'display:flex;flex-direction:column;align-items:center;justify-content:center;' +
+    'gap:20px;animation:fadeIn .2s ease;';
+  el.innerHTML =
+    '<div style="width:70px;height:70px;border:5px solid rgba(255,255,255,.2);' +
+    'border-top:5px solid #fff;border-radius:50%;animation:spin 1s linear infinite;"></div>' +
+    '<div style="color:#fff;font-size:1.2rem;font-weight:900;letter-spacing:.3px;">Submitting your exam…</div>' +
+    '<div style="color:#9fa8da;font-size:.85rem;font-weight:700;">Please wait a moment</div>';
+  document.body.appendChild(el);
+}
+function _removeSubmitProcessing() {
+  const el = document.getElementById('submit-processing-overlay');
+  if (el) { el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(()=>el.remove(),320); }
+}
+
 function submitExam() {
-  document.getElementById('submit-modal').style.display = 'none';
+  if (window._submitting) return;
+  window._submitting = true;
+
+  // Hide modal and stop timer immediately
+  const modal = document.getElementById('submit-modal');
+  if (modal) modal.style.display = 'none';
   clearInterval(examState.timerInterval);
   examState.submitted = true;
 
-  // ── Show a "submitting" overlay immediately so screen never goes blank ──
-  document.getElementById('result-full-body').innerHTML =
-    `<div style="text-align:center;padding:80px 20px 60px;">
-      <div style="font-size:3rem;margin-bottom:20px;animation:float 2s ease infinite;">📊</div>
-      <div style="font-weight:900;font-size:1.2rem;color:#1a237e;margin-bottom:8px;">Submitting your exam…</div>
-      <div style="color:#9fa8da;font-size:.88rem;font-weight:700;">Calculating results, please wait</div>
-      <div style="margin-top:20px;width:48px;height:48px;border:4px solid #e8eaf6;
-        border-top:4px solid #3949ab;border-radius:50%;animation:spin 1s linear infinite;
-        margin-left:auto;margin-right:auto;"></div>
-    </div>`;
-  showPage('page-result');
+  // Show a "processing" overlay so student sees instant feedback
+  _showSubmitProcessing();
 
-  // ── Stop exam lock (exitFullscreen is async — give it 300ms to settle) ──
-  examWindowLock.stop();
-
-  // ── All heavy work deferred until after fullscreen animation completes ──
-  setTimeout(() => _finishSubmit(), 350);
-}
-
-function _finishSubmit() {
-  // ── SCORE CALCULATION ────────────────────────────────────────
+  // ── STEP 1: Score calculation (pure JS, zero DOM — runs in <5ms) ──
   const detail = { mcq:[], trueFalse:[], match:[], answer:[] };
   const mPerQ  = [
     examState.sections[0].marksPerQ || 1,
@@ -3317,13 +3610,8 @@ function _finishSubmit() {
     if(!q) return;
     const correct = examState.sections[0].answers[i] === q.shuffledAns;
     if(correct) s1 += mPerQ[0];
-    detail.mcq.push({
-      q: q.q||'',
-      opts: (q.shuffledOpts||[]).map(o=>o.text||o),
-      chosen: examState.sections[0].answers[i],
-      correct: q.shuffledAns,
-      isRight: correct
-    });
+    detail.mcq.push({ q:q.q||'', opts:(q.shuffledOpts||[]).map(o=>o.text||o),
+      chosen:examState.sections[0].answers[i], correct:q.shuffledAns, isRight:correct });
   });
 
   let s2=0;
@@ -3331,10 +3619,8 @@ function _finishSubmit() {
     if(!q) return;
     const correct = examState.sections[1].answers[i] === q.ans;
     if(correct) s2 += mPerQ[1];
-    detail.trueFalse.push({
-      q: q.q||'', chosen: examState.sections[1].answers[i],
-      correct: q.ans, isRight: correct
-    });
+    detail.trueFalse.push({ q:q.q||'', chosen:examState.sections[1].answers[i],
+      correct:q.ans, isRight:correct });
   });
 
   let s3=0;
@@ -3342,11 +3628,7 @@ function _finishSubmit() {
     if(!q) return;
     const correct = examState.sections[2].answers[i] === q.b;
     if(correct) s3 += mPerQ[2];
-    detail.match.push({
-      a: q.a||'', b: q.b||'',
-      chosen: examState.sections[2].answers[i],
-      isRight: correct
-    });
+    detail.match.push({ a:q.a||'', b:q.b||'', chosen:examState.sections[2].answers[i], isRight:correct });
   });
 
   let s4=0;
@@ -3354,13 +3636,8 @@ function _finishSubmit() {
     if(!q) return;
     const correct = examState.sections[3].answers[i] === q.shuffledAns;
     if(correct) s4 += mPerQ[3];
-    detail.answer.push({
-      q: q.q||'',
-      opts: (q.shuffledOpts||[]).map(o=>o.text||o),
-      chosen: examState.sections[3].answers[i],
-      correct: q.shuffledAns,
-      isRight: correct
-    });
+    detail.answer.push({ q:q.q||'', opts:(q.shuffledOpts||[]).map(o=>o.text||o),
+      chosen:examState.sections[3].answers[i], correct:q.shuffledAns, isRight:correct });
   });
 
   const total    = s1+s2+s3+s4;
@@ -3375,42 +3652,159 @@ function _finishSubmit() {
 
   const st = examState.student;
   const resultData = {
-    ...st,
-    mcq: s1, trueFalse: s2, match: s3, answer: s4,
+    ...st, mcq:s1, trueFalse:s2, match:s3, answer:s4,
     sec1:s1, sec2:s2, sec3:s3, sec4:s4,
-    total, maxMarks, pct: parseFloat(pct.toFixed(1)), grade,
+    total, maxMarks, pct:parseFloat(pct.toFixed(1)), grade,
     date: new Date().toISOString()
   };
 
-  // Save to localStorage
+  // ── STEP 2: Save to localStorage (<2ms) ──
   try {
-    const existing = JSON.parse(localStorage.getItem('ict_results')||'[]');
-    existing.push(resultData);
-    localStorage.setItem('ict_results', JSON.stringify(existing));
-  } catch(e) { console.warn('Could not save result:', e); }
+    const ex = JSON.parse(localStorage.getItem('ict_results')||'[]');
+    ex.push(resultData);
+    localStorage.setItem('ict_results', JSON.stringify(ex));
+  } catch(e){}
 
-  // Send to Google Sheets (fire-and-forget, never blocks UI)
+  // ── STEP 3: Fire-and-forget to Google Sheets (never blocks UI) ──
   try {
-    const _sheetUrl = getSheetUrl();
-    if (_sheetUrl && _sheetUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
-      fetch(_sheetUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'no-cors',
-        body: JSON.stringify(resultData)
-      }).catch(() => {});
+    const _su = getSheetUrl();
+    if (_su && _su !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+      fetch(_su, { method:'POST', headers:{'Content-Type':'application/json'},
+        mode:'no-cors', body:JSON.stringify(resultData) }).catch(()=>{});
     }
-  } catch(e) {}
+  } catch(e){}
 
-  // Store for download/re-render
   window._lastResult = { resultData, detail, s1, s2, s3, s4, total, maxMarks, pct, grade, gradeColor, gradeEmoji, gradeMsg };
-  document.getElementById('result-topbar-name').textContent = st.name + ' — Std ' + st.std;
 
-  // Render result after a small pause so browser has painted the spinner
-  requestAnimationFrame(() => {
-    setTimeout(() => _renderResultPage(window._lastResult), 60);
-  });
+  // ── STEP 4: Build INSTANT result page (hero + section scores + student info only) ──
+  const scaleLabels = [0, Math.round(maxMarks*.25), Math.round(maxMarks*.5), Math.round(maxMarks*.75), maxMarks];
+  const mPQ = [ES.sections[0].marksPerQ||1, ES.sections[1].marksPerQ||1,
+               ES.sections[2].marksPerQ||1, ES.sections[3].marksPerQ||1];
+  const sD = [
+    {label:'MCQ',       icon:'📝', marks:s1, mPerQ:mPQ[0], items:detail.mcq,       color:'#3949ab'},
+    {label:'True/False',icon:'✅', marks:s2, mPerQ:mPQ[1], items:detail.trueFalse, color:'#00838f'},
+    {label:'Match',     icon:'🔗', marks:s3, mPerQ:mPQ[2], items:detail.match,      color:'#2e7d32'},
+    {label:'Full Form', icon:'💡', marks:s4, mPerQ:mPQ[3], items:detail.answer,     color:'#e65100'},
+  ];
+
+  const instantHTML =
+    '<!-- HERO -->' +
+    '<div style="background:linear-gradient(135deg,#1a237e 0%,#283593 50%,#3949ab 100%);' +
+    'border-radius:22px;padding:36px 28px;color:#fff;text-align:center;' +
+    'margin-bottom:20px;box-shadow:0 12px 40px rgba(26,35,126,.35);animation:slideInUp .3s ease;">' +
+    '<div style="display:inline-flex;align-items:center;justify-content:center;' +
+    'width:110px;height:110px;border-radius:50%;margin:0 auto 16px;' +
+    'background:' + gradeColor + '30;border:5px solid ' + gradeColor + ';font-size:3.2rem;' +
+    'animation:popIn .45s cubic-bezier(.34,1.56,.64,1) .05s both;">' + gradeEmoji + '</div>' +
+    '<div style="font-size:2.8rem;font-weight:900;letter-spacing:-1px;margin-bottom:4px;">' +
+    total + '<span style="font-size:1.4rem;font-weight:700;opacity:.7;"> / ' + maxMarks + '</span></div>' +
+    '<div style="font-size:1.6rem;font-weight:900;color:' + gradeColor + ';' +
+    'background:rgba(255,255,255,.08);border-radius:99px;' +
+    'padding:4px 22px;display:inline-block;margin-bottom:8px;">Grade ' + grade + '</div>' +
+    '<div style="font-size:1.1rem;color:#c5cae9;font-weight:700;margin-bottom:4px;">' + gradeMsg + '</div>' +
+    '<div style="font-size:.88rem;color:#9fa8da;">' + pct.toFixed(1) + '% · ' + st.name + ' · Std ' + st.std + '-' + st.div + '</div>' +
+    '<div style="margin:18px auto 0;max-width:360px;">' +
+    '<div style="height:10px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;">' +
+    '<div style="height:100%;width:' + Math.min(pct,100) + '%;background:' + gradeColor + ';border-radius:99px;transition:width 1.2s ease;"></div></div>' +
+    '<div style="display:flex;justify-content:space-between;font-size:.72rem;color:#9fa8da;font-weight:700;margin-top:5px;">' +
+    scaleLabels.map(function(v){return '<span>'+v+'</span>';}).join('') + '</div></div>' +
+    '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px;">' +
+    '<button onclick="_downloadResult(\'pdf\')" style="padding:10px 20px;border-radius:12px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.18);color:#fff;font-family:inherit;font-weight:900;font-size:.9rem;cursor:pointer;">📕 PDF</button>' +
+    '<button onclick="_downloadResult(\'doc\')" style="padding:10px 20px;border-radius:12px;border:2px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-family:inherit;font-weight:900;font-size:.9rem;cursor:pointer;">📝 DOC</button>' +
+    '<button onclick="showPage(\'page-register\');resetExam()" style="padding:10px 20px;border-radius:12px;border:2px solid rgba(255,111,0,.5);background:rgba(255,111,0,.2);color:#ffcc80;font-family:inherit;font-weight:900;font-size:.9rem;cursor:pointer;">🔄 New Exam</button>' +
+    '</div></div>' +
+
+    '<!-- SECTION CARDS -->' +
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">' +
+    sD.map(function(sd,si){
+      var smx=sd.items.length*sd.mPerQ, sp=smx>0?Math.round((sd.marks/smx)*100):0;
+      var cc=sd.mPerQ>0?Math.round(sd.marks/sd.mPerQ):0;
+      return '<div style="background:#fff;border-radius:16px;padding:16px 10px;text-align:center;' +
+        'border:2px solid '+sd.color+'22;box-shadow:0 3px 12px rgba(0,0,0,.07);' +
+        'animation:slideInUp .3s ease both;animation-delay:'+(si*.06)+'s;">' +
+        '<div>'+_donutSvg(sp,sd.color,80)+'</div>' +
+        '<div style="font-size:1.5rem;font-weight:900;color:'+sd.color+';margin-top:4px;">' +
+        sd.marks+'<span style="font-size:.75rem;color:var(--muted);">/'+smx+'</span></div>' +
+        '<div style="font-size:.7rem;font-weight:800;color:var(--muted);margin-top:2px;">'+sd.icon+' '+sd.label+'</div>' +
+        '<div style="display:flex;gap:4px;justify-content:center;margin-top:6px;flex-wrap:wrap;">' +
+        '<span style="font-size:.6rem;background:#e8f5e9;color:#2e7d32;border-radius:99px;padding:1px 7px;font-weight:800;">✅ '+cc+'/'+sd.items.length+'</span>' +
+        '<span style="font-size:.6rem;background:#ffebee;color:#b71c1c;border-radius:99px;padding:1px 7px;font-weight:800;">❌ '+(sd.items.length-cc)+'</span>' +
+        '</div></div>';
+    }).join('') + '</div>' +
+
+    '<!-- STUDENT INFO -->' +
+    '<div style="background:#fff;border-radius:16px;padding:18px 20px;margin-bottom:20px;' +
+    'border:2px solid #e8eaf6;box-shadow:0 2px 8px rgba(0,0,0,.05);">' +
+    '<div style="font-weight:900;font-size:1rem;color:var(--text);margin-bottom:12px;">📋 Student Details</div>' +
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">' +
+    [['👤 Name',st.name],['🔢 Roll No',st.roll],['📚 Standard','Std '+st.std],
+     ['🏫 Division',st.div],['💻 Subject',st.subject||'ICT'],['📱 Mobile',st.mobile]
+    ].map(function(kv){
+      return '<div style="background:#f5f7ff;border-radius:10px;padding:10px 12px;">' +
+        '<div style="font-size:.72rem;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;">'+kv[0]+'</div>' +
+        '<div style="font-weight:900;font-size:.92rem;">'+(kv[1]||'—')+'</div></div>';
+    }).join('') + '</div></div>' +
+
+    '<!-- LAZY ANSWER REVIEW placeholder -->' +
+    '<div id="answer-review-section">' +
+    '<div style="text-align:center;padding:28px 20px;background:#fff;border-radius:16px;' +
+    'border:2px solid #e8eaf6;margin-bottom:16px;">' +
+    '<div style="width:28px;height:28px;border:3px solid #e8eaf6;border-top:3px solid #3949ab;' +
+    'border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 10px;"></div>' +
+    '<div style="font-size:.84rem;font-weight:700;color:#9fa8da;">Loading answer review…</div>' +
+    '</div></div>' +
+
+    '<!-- BOTTOM ACTIONS -->' +
+    '<div style="background:#fff;border-radius:16px;padding:20px;margin-top:4px;' +
+    'border:2px solid #e8eaf6;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">' +
+    '<button onclick="_downloadResult(\'pdf\')" style="padding:11px 22px;border-radius:12px;border:none;background:linear-gradient(135deg,#b71c1c,#c62828);color:#fff;font-family:inherit;font-weight:900;font-size:.95rem;cursor:pointer;">📕 Download PDF</button>' +
+    '<button onclick="_downloadResult(\'doc\')" style="padding:11px 22px;border-radius:12px;border:none;background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;font-family:inherit;font-weight:900;font-size:.95rem;cursor:pointer;">📝 Download DOC</button>' +
+    '<button onclick="window.print()" style="padding:11px 22px;border-radius:12px;border:2px solid #c5cae9;background:#e8eaf6;color:var(--primary);font-family:inherit;font-weight:800;font-size:.95rem;cursor:pointer;">🖨️ Print</button>' +
+    '<button onclick="showPage(\'page-register\');resetExam()" style="padding:11px 22px;border-radius:12px;border:2px solid #ff6f00;background:#fff3e0;color:#e65100;font-family:inherit;font-weight:900;font-size:.95rem;cursor:pointer;">🔄 New Exam</button>' +
+    '</div>';
+
+  // ── STEP 5: Pre-fill result DOM (hidden) so it's ready to show instantly ──
+  document.getElementById('result-topbar-name').textContent = st.name + ' — Std ' + st.std;
+  document.getElementById('result-full-body').innerHTML = instantHTML;
+
+  // ── STEP 6: Exit fullscreen FIRST, then show result page ──
+  // exitFullscreen() is async — wait for it before switching page
+  // so the browser doesn't keep showing the fullscreen exam page.
+  function _doShowResult() {
+    examWindowLock.stop();           // removes all listeners, exits fullscreen internally
+    window._submitting = false;
+    _removeSubmitProcessing();
+    showPage('page-result');
+    showToast('✅ Submitted Successfully!', 'linear-gradient(135deg,#1b5e20,#2e7d32)', 3500);
+    // Lazy-load answer review after page is visible
+    setTimeout(function(){ _renderAnswerReview(window._lastResult); }, 500);
+  }
+
+  if (document.fullscreenElement) {
+    // Listen for fullscreen exit, then show result
+    const onFsExit = function() {
+      document.removeEventListener('fullscreenchange', onFsExit);
+      _doShowResult();
+    };
+    document.addEventListener('fullscreenchange', onFsExit);
+    document.exitFullscreen().catch(function() {
+      // exitFullscreen rejected (e.g. already exited) — show result anyway
+      document.removeEventListener('fullscreenchange', onFsExit);
+      _doShowResult();
+    });
+    // Safety timeout: if fullscreenchange never fires within 800ms, proceed anyway
+    setTimeout(function() {
+      if (window._submitting) {
+        document.removeEventListener('fullscreenchange', onFsExit);
+        _doShowResult();
+      }
+    }, 800);
+  } else {
+    // Not in fullscreen — show result immediately
+    _doShowResult();
+  }
 }
+
 
 // ── DRAW DONUT SVG ───────────────────────────────────────────
 function _donutSvg(pct, color, size) {
@@ -3428,288 +3822,142 @@ function _donutSvg(pct, color, size) {
   </svg>`;
 }
 
-// ── MAIN RESULT PAGE RENDERER ────────────────────────────────
-function _renderResultPage(R) {
-  const {resultData,detail,s1,s2,s3,s4,total,maxMarks,pct,grade,gradeColor,gradeEmoji,gradeMsg} = R;
-  const st = resultData;
-  const KEYS=['A','B','C','D'];
-  // Load settings to get marksPerQ per section
-  const ES = loadExamSettings();
+// ── ANSWER REVIEW — injected lazily into #answer-review-section ──────────────
+// Called 400ms after the instant result page is already visible to the student.
+// This is the ONLY function that renders the per-question review cards.
+function _renderAnswerReview(R) {
+  const target = document.getElementById('answer-review-section');
+  if (!target) return; // result page not visible
+  const {detail,s1,s2,s3,s4} = R;
+  const KEYS = ['A','B','C','D'];
+  const ES   = loadExamSettings();
   const mPerQ = [ES.sections[0].marksPerQ||1, ES.sections[1].marksPerQ||1,
                  ES.sections[2].marksPerQ||1, ES.sections[3].marksPerQ||1];
-  // correctCount = number of correct answers (not marks)
-  const secData=[
+  const secData = [
     {label:'MCQ',       icon:'📝', marks:s1, mPerQ:mPerQ[0],
-      correctCount: mPerQ[0]>0?Math.round(s1/mPerQ[0]):0,
-      color:'#3949ab', bg:'#e8eaf6', items:detail.mcq},
+      correctCount:mPerQ[0]>0?Math.round(s1/mPerQ[0]):0, color:'#3949ab', items:detail.mcq},
     {label:'True/False',icon:'✅', marks:s2, mPerQ:mPerQ[1],
-      correctCount: mPerQ[1]>0?Math.round(s2/mPerQ[1]):0,
-      color:'#00838f', bg:'#e0f7fa', items:detail.trueFalse},
+      correctCount:mPerQ[1]>0?Math.round(s2/mPerQ[1]):0, color:'#00838f', items:detail.trueFalse},
     {label:'Match',     icon:'🔗', marks:s3, mPerQ:mPerQ[2],
-      correctCount: mPerQ[2]>0?Math.round(s3/mPerQ[2]):0,
-      color:'#2e7d32', bg:'#e8f5e9', items:detail.match},
+      correctCount:mPerQ[2]>0?Math.round(s3/mPerQ[2]):0, color:'#2e7d32', items:detail.match},
     {label:'Full Form', icon:'💡', marks:s4, mPerQ:mPerQ[3],
-      correctCount: mPerQ[3]>0?Math.round(s4/mPerQ[3]):0,
-      color:'#e65100', bg:'#fff3e0', items:detail.answer},
+      correctCount:mPerQ[3]>0?Math.round(s4/mPerQ[3]):0, color:'#e65100', items:detail.answer},
   ];
-  // Build scale labels for score bar (0, 25%, 50%, 75%, 100% of maxMarks)
-  const scaleLabels = [0, Math.round(maxMarks*0.25), Math.round(maxMarks*0.5),
-                       Math.round(maxMarks*0.75), maxMarks];
 
-  let html = `
-<!-- HERO BANNER -->
-<div style="background:linear-gradient(135deg,#1a237e 0%,#283593 50%,#3949ab 100%);
-  border-radius:22px;padding:36px 28px;color:#fff;text-align:center;
-  margin-bottom:20px;box-shadow:0 12px 40px rgba(26,35,126,.35);
-  animation:slideInUp .4s ease;">
+  let html = `<div style="font-size:.8rem;font-weight:900;color:var(--muted);text-transform:uppercase;
+    letter-spacing:.6px;margin-bottom:12px;">📖 Answer Review</div>`;
 
-  <!-- Grade circle -->
-  <div style="display:inline-flex;align-items:center;justify-content:center;
-    width:110px;height:110px;border-radius:50%;margin:0 auto 16px;
-    background:${gradeColor}30;border:5px solid ${gradeColor};
-    font-size:3.2rem;animation:popIn .5s cubic-bezier(.34,1.56,.64,1) .1s both;">
-    ${gradeEmoji}
-  </div>
-
-  <div style="font-size:2.8rem;font-weight:900;letter-spacing:-1px;margin-bottom:4px;">
-    ${total} <span style="font-size:1.4rem;font-weight:700;opacity:.7;">/ ${maxMarks}</span>
-  </div>
-  <div style="font-size:1.6rem;font-weight:900;color:${gradeColor};
-    background:rgba(255,255,255,.08);border-radius:99px;
-    padding:4px 22px;display:inline-block;margin-bottom:8px;">
-    Grade ${grade}
-  </div>
-  <div style="font-size:1.1rem;color:#c5cae9;font-weight:700;margin-bottom:6px;">${gradeMsg}</div>
-  <div style="font-size:.88rem;color:#9fa8da;">${pct.toFixed(1)}% · ${st.name} · Std ${st.std}-${st.div}</div>
-
-  <!-- Score bar (dynamic scale) -->
-  <div style="margin:20px auto 0;max-width:360px;">
-    <div style="height:10px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;">
-      <div style="height:100%;width:${Math.min(pct,100)}%;background:${gradeColor};
-        border-radius:99px;transition:width 1.2s ease;"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;font-size:.72rem;
-      color:#9fa8da;font-weight:700;margin-top:5px;">
-      ${scaleLabels.map(v=>`<span>${v}</span>`).join('')}
-    </div>
-  </div>
-
-  <!-- Action buttons -->
-  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
-    <button onclick="_downloadResult('pdf')"
-      style="padding:10px 20px;border-radius:12px;border:2px solid rgba(255,255,255,.4);
-        background:rgba(255,255,255,.18);color:#fff;font-family:inherit;font-weight:900;
-        font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:7px;">
-      📕 Download PDF</button>
-    <button onclick="_downloadResult('doc')"
-      style="padding:10px 20px;border-radius:12px;border:2px solid rgba(255,255,255,.3);
-        background:rgba(255,255,255,.12);color:#fff;font-family:inherit;font-weight:900;
-        font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:7px;">
-      📝 Download DOC</button>
-    <button onclick="window.print()"
-      style="padding:10px 20px;border-radius:12px;border:2px solid rgba(255,255,255,.25);
-        background:rgba(255,255,255,.08);color:#c5cae9;font-family:inherit;font-weight:800;
-        font-size:.9rem;cursor:pointer;">🖨️ Print</button>
-    <button onclick="showPage('page-register');resetExam()"
-      style="padding:10px 20px;border-radius:12px;border:2px solid rgba(255,111,0,.5);
-        background:rgba(255,111,0,.2);color:#ffcc80;font-family:inherit;font-weight:900;
-        font-size:.9rem;cursor:pointer;">🔄 New Exam</button>
-  </div>
-</div>
-
-<!-- SECTION SCORE CARDS (donut charts) -->
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
-  ${secData.map((sd,si)=>{
-    const secMaxMarks = sd.items.length * sd.mPerQ;
-    const secPct = secMaxMarks > 0 ? Math.round((sd.marks / secMaxMarks)*100) : 0;
-    return `
-  <div style="background:#fff;border-radius:16px;padding:16px 10px;text-align:center;
-    border:2px solid ${sd.color}22;box-shadow:0 3px 12px rgba(0,0,0,.07);
-    animation:slideInUp .35s ease both;animation-delay:${si*.07}s;">
-    <div>${_donutSvg(secPct, sd.color, 80)}</div>
-    <div style="font-size:1.5rem;font-weight:900;color:${sd.color};margin-top:4px;">
-      ${sd.marks}<span style="font-size:.75rem;color:var(--muted);">/${secMaxMarks}</span>
-    </div>
-    <div style="font-size:.7rem;font-weight:800;color:var(--muted);margin-top:2px;">${sd.icon} ${sd.label}</div>
-    <div style="display:flex;gap:4px;justify-content:center;margin-top:6px;flex-wrap:wrap;">
-      <span style="font-size:.6rem;background:#e8f5e9;color:#2e7d32;border-radius:99px;padding:1px 7px;font-weight:800;">
-        ✅ ${sd.correctCount}/${sd.items.length}</span>
-      <span style="font-size:.6rem;background:#ffebee;color:#b71c1c;border-radius:99px;padding:1px 7px;font-weight:800;">
-        ❌ ${sd.items.length - sd.correctCount}</span>
-    </div>
-  </div>`;
-  }).join('')}
-</div>
-
-<!-- STUDENT INFO -->
-<div style="background:#fff;border-radius:16px;padding:18px 20px;margin-bottom:20px;
-  border:2px solid #e8eaf6;box-shadow:0 2px 8px rgba(0,0,0,.05);">
-  <div style="font-weight:900;font-size:1rem;color:var(--text);margin-bottom:12px;">📋 Student Details</div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
-    ${[['👤 Name',st.name],['🔢 Roll No',st.roll],['📚 Standard','Std '+st.std],
-       ['🏫 Division',st.div],['💻 Subject',st.subject||'ICT'],['📱 Mobile',st.mobile]
-      ].map(([k,v])=>`<div style="background:#f5f7ff;border-radius:10px;padding:10px 12px;">
-        <div style="font-size:.72rem;color:var(--muted);font-weight:800;text-transform:uppercase;
-          letter-spacing:.4px;margin-bottom:3px;">${k}</div>
-        <div style="font-weight:900;font-size:.95rem;">${v}</div>
-      </div>`).join('')}
-  </div>
-</div>
-
-<!-- SECTION-WISE Q&A REVIEW -->
-<div style="font-size:.8rem;font-weight:900;color:var(--muted);text-transform:uppercase;
-  letter-spacing:.6px;margin-bottom:12px;">📖 Answer Review</div>
-
-${secData.map((sd,si)=>{
-  if(!sd.items.length) return '';
-  return `<div style="background:#fff;border-radius:16px;border:2px solid ${sd.color}22;
-    margin-bottom:16px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.06);
-    animation:slideInUp .4s ease both;animation-delay:${si*.08}s;">
-
-    <!-- Section header -->
-    <div style="background:linear-gradient(90deg,${sd.color}18,transparent);
-      padding:13px 16px;border-bottom:2px solid ${sd.color}18;
-      display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="width:38px;height:38px;border-radius:10px;background:${sd.color}18;
-          display:flex;align-items:center;justify-content:center;font-size:1.2rem;">
-          ${sd.icon}</div>
-        <div>
-          <div style="font-weight:900;font-size:1rem;">${sd.label}</div>
-          <div style="font-size:.75rem;color:var(--muted);font-weight:700;">
-            ${sd.correctCount} correct of ${sd.items.length} questions · ${sd.marks}/${sd.items.length * sd.mPerQ} marks
+  secData.forEach((sd,si) => {
+    if (!sd.items.length) return;
+    const smx = sd.items.length * sd.mPerQ;
+    html += `<div style="background:#fff;border-radius:16px;border:2px solid ${sd.color}22;
+      margin-bottom:16px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.06);
+      animation:slideInUp .35s ease both;animation-delay:${si*.07}s;">
+      <div style="background:linear-gradient(90deg,${sd.color}18,transparent);
+        padding:13px 16px;border-bottom:2px solid ${sd.color}18;
+        display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:38px;height:38px;border-radius:10px;background:${sd.color}18;
+            display:flex;align-items:center;justify-content:center;font-size:1.2rem;">${sd.icon}</div>
+          <div>
+            <div style="font-weight:900;font-size:1rem;">${sd.label}</div>
+            <div style="font-size:.75rem;color:var(--muted);font-weight:700;">
+              ${sd.correctCount} correct of ${sd.items.length} · ${sd.marks}/${smx} marks</div>
           </div>
         </div>
+        <div style="display:flex;gap:6px;">
+          <div style="background:#e8f5e9;border-radius:8px;padding:5px 12px;font-size:.78rem;font-weight:900;color:#2e7d32;">✅ ${sd.correctCount} Right</div>
+          <div style="background:#ffebee;border-radius:8px;padding:5px 12px;font-size:.78rem;font-weight:900;color:#b71c1c;">❌ ${sd.items.length-sd.correctCount} Wrong</div>
+        </div>
       </div>
-      <div style="display:flex;gap:6px;align-items:center;">
-        <div style="background:#e8f5e9;border-radius:8px;padding:5px 12px;
-          font-size:.78rem;font-weight:900;color:#2e7d32;">✅ ${sd.correctCount} Right</div>
-        <div style="background:#ffebee;border-radius:8px;padding:5px 12px;
-          font-size:.78rem;font-weight:900;color:#b71c1c;">❌ ${sd.items.length-sd.correctCount} Wrong</div>
-      </div>
-    </div>
+      <div style="padding:12px 14px;display:flex;flex-direction:column;gap:10px;">`;
 
-    <!-- Questions -->
-    <div style="padding:12px 14px;display:flex;flex-direction:column;gap:10px;">
-      ${sd.items.map((item,qi)=>{
-        const isRight = item.isRight;
-        const notAns  = item.chosen===null||item.chosen===undefined;
+    sd.items.forEach((item,qi) => {
+      const isRight = item.isRight;
+      const notAns  = item.chosen===null || item.chosen===undefined;
+      const bc      = isRight?'#00c853':notAns?'#9e9e9e':'#ff1744';
+      const bg      = isRight?'#f0fdf4':notAns?'#fafafa':'#fff8f8';
 
-        if(sd.label==='True/False'){
-          const corrLabel = item.correct ? 'True' : 'False';
-          const choLabel  = item.chosen===null ? 'Not Answered' : item.chosen ? 'True' : 'False';
-          return `<div style="border:2px solid ${isRight?'#00c853':notAns?'#9e9e9e':'#ff1744'};
-            border-radius:12px;overflow:hidden;">
-            <div style="padding:11px 14px;background:${isRight?'#f0fdf4':notAns?'#fafafa':'#fff8f8'};">
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                <span style="width:24px;height:24px;border-radius:6px;font-size:.72rem;font-weight:900;
-                  display:flex;align-items:center;justify-content:center;
-                  background:${isRight?'#00c853':notAns?'#9e9e9e':'#ff1744'};color:#fff;">
-                  ${qi+1}</span>
-                <span style="font-weight:900;font-size:.95rem;flex:1;">${item.q}</span>
-                <span style="font-size:1.2rem;">${isRight?'✅':notAns?'⬜':'❌'}</span>
-              </div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <div style="flex:1;background:${isRight?'#e8f5e9':notAns?'#f5f5f5':'#ffebee'};
-                  border-radius:8px;padding:7px 12px;border:1.5px solid ${isRight?'#00c853':notAns?'#bbb':'#ff1744'};">
-                  <div style="font-size:.66rem;font-weight:800;color:var(--muted);margin-bottom:2px;">YOUR ANSWER</div>
-                  <div style="font-weight:900;color:${isRight?'#2e7d32':notAns?'#9e9e9e':'#b71c1c'};">
-                    ${isRight?'✅':notAns?'—':'❌'} ${choLabel}</div>
-                </div>
-                ${!isRight?`<div style="flex:1;background:#e8f5e9;border-radius:8px;
-                  padding:7px 12px;border:1.5px solid #00c853;">
-                  <div style="font-size:.66rem;font-weight:800;color:var(--muted);margin-bottom:2px;">CORRECT ANSWER</div>
-                  <div style="font-weight:900;color:#2e7d32;">✅ ${corrLabel}</div>
-                </div>`:''}
-              </div>
-            </div>
-          </div>`;
-        }
-
-        if(sd.label==='Match'){
-          return `<div style="border:2px solid ${isRight?'#00c853':notAns?'#9e9e9e':'#ff1744'};
-            border-radius:12px;overflow:hidden;">
-            <div style="padding:11px 14px;background:${isRight?'#f0fdf4':notAns?'#fafafa':'#fff8f8'};
-              display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      if (sd.label === 'True/False') {
+        const corrLabel = item.correct ? 'True' : 'False';
+        const choLabel  = item.chosen===null ? 'Not Answered' : item.chosen ? 'True' : 'False';
+        html += `<div style="border:2px solid ${bc};border-radius:12px;overflow:hidden;">
+          <div style="padding:11px 14px;background:${bg};">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
               <span style="width:24px;height:24px;border-radius:6px;font-size:.72rem;font-weight:900;
-                display:flex;align-items:center;justify-content:center;flex-shrink:0;
-                background:${isRight?'#00c853':notAns?'#9e9e9e':'#ff1744'};color:#fff;">${qi+1}</span>
-              <div style="flex:1;min-width:100px;">
-                <div style="font-weight:900;font-size:.92rem;">${item.a}</div>
-                <div style="font-size:.75rem;color:var(--muted);font-weight:700;margin-top:2px;">
-                  Your: <span style="color:${isRight?'#2e7d32':notAns?'#9e9e9e':'#b71c1c'};font-weight:900;">
-                    ${item.chosen||'Not answered'}</span>
-                  ${!isRight?` · Correct: <span style="color:#2e7d32;font-weight:900;">${item.b}</span>`:''}
-                </div>
+                display:flex;align-items:center;justify-content:center;background:${bc};color:#fff;">${qi+1}</span>
+              <span style="font-weight:900;font-size:.95rem;flex:1;">${item.q}</span>
+              <span style="font-size:1.2rem;">${isRight?'✅':notAns?'⬜':'❌'}</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <div style="flex:1;background:${isRight?'#e8f5e9':notAns?'#f5f5f5':'#ffebee'};
+                border-radius:8px;padding:7px 12px;border:1.5px solid ${bc};">
+                <div style="font-size:.66rem;font-weight:800;color:var(--muted);margin-bottom:2px;">YOUR ANSWER</div>
+                <div style="font-weight:900;color:${isRight?'#2e7d32':notAns?'#9e9e9e':'#b71c1c'};">
+                  ${isRight?'✅':notAns?'—':'❌'} ${choLabel}</div>
               </div>
-              <span style="font-size:1.3rem;">${isRight?'✅':notAns?'⬜':'❌'}</span>
+              ${!isRight?`<div style="flex:1;background:#e8f5e9;border-radius:8px;
+                padding:7px 12px;border:1.5px solid #00c853;">
+                <div style="font-size:.66rem;font-weight:800;color:var(--muted);margin-bottom:2px;">CORRECT ANSWER</div>
+                <div style="font-weight:900;color:#2e7d32;">✅ ${corrLabel}</div>
+              </div>`:''}
             </div>
-          </div>`;
-        }
-
-        // MCQ / Full Form
-        const chosenIdx = item.chosen;
-        const corrIdx   = item.correct;
-        return `<div style="border:2px solid ${isRight?'#00c853':notAns?'#9e9e9e':'#ff1744'};
-          border-radius:12px;overflow:hidden;">
-          <div style="padding:11px 14px;background:${isRight?'#f0fdf4':notAns?'#fafafa':'#fff8f8'};">
-            <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;">
-              <span style="width:24px;height:24px;border-radius:6px;font-size:.72rem;font-weight:900;
-                display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
-                background:${isRight?'#00c853':notAns?'#9e9e9e':'#ff1744'};color:#fff;">${qi+1}</span>
-              <span style="font-weight:900;font-size:.95rem;flex:1;line-height:1.4;">${item.q}</span>
-              <span style="font-size:1.3rem;flex-shrink:0;">${isRight?'✅':notAns?'⬜':'❌'}</span>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-              ${(item.opts||[]).map((opt,oi)=>{
-                const isChosen  = chosenIdx===oi;
-                const isCorrect = corrIdx===oi;
-                let bg='#f5f7ff', border='#e8eaf6', col='var(--text)', icon='';
-                if(isCorrect){ bg='#e8f5e9'; border='#00c853'; col='#2e7d32'; icon='✅ '; }
-                if(isChosen&&!isCorrect){ bg='#ffebee'; border='#ff1744'; col='#b71c1c'; icon='❌ '; }
-                if(isChosen&&isCorrect){ icon='✅ '; }
-                return `<div style="background:${bg};border:2px solid ${border};
-                  border-radius:9px;padding:8px 10px;font-size:.84rem;
-                  font-weight:${isChosen||isCorrect?'900':'700'};color:${col};">
-                  <span style="opacity:.65;">${KEYS[oi]})</span> ${icon}${opt}
-                </div>`;
-              }).join('')}
-            </div>
-            ${notAns?`<div style="margin-top:8px;font-size:.76rem;color:#9e9e9e;font-weight:700;">
-              — Not answered · Correct: <strong>${KEYS[corrIdx]}) ${item.opts[corrIdx]||''}</strong>
-            </div>`:''}
           </div>
         </div>`;
-      }).join('')}
-    </div>
-  </div>`;
-}).join('')}
+        return;
+      }
 
-<!-- BOTTOM ACTIONS -->
-<div style="background:#fff;border-radius:16px;padding:20px;margin-top:8px;
-  border:2px solid #e8eaf6;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);">
-  <button onclick="_downloadResult('pdf')"
-    style="padding:11px 22px;border-radius:12px;border:none;
-      background:linear-gradient(135deg,#b71c1c,#c62828);color:#fff;
-      font-family:inherit;font-weight:900;font-size:.95rem;cursor:pointer;
-      box-shadow:0 4px 12px rgba(183,28,28,.3);">📕 Download PDF</button>
-  <button onclick="_downloadResult('doc')"
-    style="padding:11px 22px;border-radius:12px;border:none;
-      background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;
-      font-family:inherit;font-weight:900;font-size:.95rem;cursor:pointer;
-      box-shadow:0 4px 12px rgba(27,94,32,.3);">📝 Download DOC</button>
-  <button onclick="window.print()"
-    style="padding:11px 22px;border-radius:12px;border:2px solid #c5cae9;
-      background:#e8eaf6;color:var(--primary);font-family:inherit;
-      font-weight:800;font-size:.95rem;cursor:pointer;">🖨️ Print</button>
-  <button onclick="showPage('page-register');resetExam()"
-    style="padding:11px 22px;border-radius:12px;border:2px solid #ff6f00;
-      background:#fff3e0;color:#e65100;font-family:inherit;
-      font-weight:900;font-size:.95rem;cursor:pointer;">🔄 Take New Exam</button>
-</div>`;
+      if (sd.label === 'Match') {
+        html += `<div style="border:2px solid ${bc};border-radius:12px;overflow:hidden;">
+          <div style="padding:11px 14px;background:${bg};display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span style="width:24px;height:24px;border-radius:6px;font-size:.72rem;font-weight:900;
+              display:flex;align-items:center;justify-content:center;flex-shrink:0;background:${bc};color:#fff;">${qi+1}</span>
+            <div style="flex:1;min-width:100px;">
+              <div style="font-weight:900;font-size:.92rem;">${item.a}</div>
+              <div style="font-size:.75rem;color:var(--muted);font-weight:700;margin-top:2px;">
+                Your: <span style="color:${isRight?'#2e7d32':notAns?'#9e9e9e':'#b71c1c'};font-weight:900;">${item.chosen||'Not answered'}</span>
+                ${!isRight?` · Correct: <span style="color:#2e7d32;font-weight:900;">${item.b}</span>`:''}
+              </div>
+            </div>
+            <span style="font-size:1.3rem;">${isRight?'✅':notAns?'⬜':'❌'}</span>
+          </div>
+        </div>`;
+        return;
+      }
 
-  document.getElementById('result-full-body').innerHTML = html;
+      // MCQ / Full Form
+      const chosenIdx = item.chosen;
+      const corrIdx   = item.correct;
+      html += `<div style="border:2px solid ${bc};border-radius:12px;overflow:hidden;">
+        <div style="padding:11px 14px;background:${bg};">
+          <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;">
+            <span style="width:24px;height:24px;border-radius:6px;font-size:.72rem;font-weight:900;
+              display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
+              background:${bc};color:#fff;">${qi+1}</span>
+            <span style="font-weight:900;font-size:.95rem;flex:1;line-height:1.4;">${item.q}</span>
+            <span style="font-size:1.3rem;flex-shrink:0;">${isRight?'✅':notAns?'⬜':'❌'}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">`;
+      (item.opts||[]).forEach((opt,oi) => {
+        const isChosen  = chosenIdx===oi;
+        const isCorrect = corrIdx===oi;
+        let obg='#f5f7ff', obr='#e8eaf6', ocol='var(--text)', icon='';
+        if(isCorrect){ obg='#e8f5e9'; obr='#00c853'; ocol='#2e7d32'; icon='✅ '; }
+        if(isChosen&&!isCorrect){ obg='#ffebee'; obr='#ff1744'; ocol='#b71c1c'; icon='❌ '; }
+        if(isChosen&&isCorrect){ icon='✅ '; }
+        html += `<div style="background:${obg};border:2px solid ${obr};border-radius:9px;
+          padding:8px 10px;font-size:.84rem;font-weight:${isChosen||isCorrect?'900':'700'};color:${ocol};">
+          <span style="opacity:.65;">${KEYS[oi]})</span> ${icon}${opt}</div>`;
+      });
+      html += `</div>${notAns?`<div style="margin-top:8px;font-size:.76rem;color:#9e9e9e;font-weight:700;">
+        — Not answered · Correct: <strong>${KEYS[corrIdx]}) ${(item.opts||[])[corrIdx]||''}</strong></div>`:''}
+        </div></div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  target.innerHTML = html;
 }
 
 // ── DOWNLOAD RESULT (PDF/DOC) ────────────────────────────────
@@ -3906,6 +4154,331 @@ ${secDefs.map((sd,i)=>`<tr style="background:${i%2?'#f5f7ff':'#fff'};">
 // ============================================================
 // TEACHER SECTION
 // ============================================================
+
+// ── DOWNLOAD Q&A REPORT (Teacher side, std-wise) ─────────────
+// Generates a clean PDF-printable HTML showing all questions +
+// correct answers for a given standard, section-by-section.
+
+// ── TOGGLE Q&A FORMAT DROPDOWN ───────────────────────────────
+function toggleQAMenu() {
+  const m = document.getElementById('qa-dl-menu');
+  if (!m) return;
+  const isOpen = m.style.display === 'block';
+  m.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) {
+    // Close when clicking anywhere else
+    setTimeout(() => {
+      document.addEventListener('click', function _close(e) {
+        if (!document.getElementById('qa-dl-btn') || !document.getElementById('qa-dl-btn').contains(e.target)) {
+          const menu = document.getElementById('qa-dl-menu');
+          if (menu) menu.style.display = 'none';
+          document.removeEventListener('click', _close);
+        }
+      });
+    }, 10);
+  }
+}
+
+// ── DOWNLOAD Q&A REPORT — TXT / DOC / PDF ───────────────────
+// fmt: 'txt' | 'doc' | 'pdf'
+// reads editorState.std at call time — no argument needed for std
+function downloadQAReport(fmt) {
+  const std  = (typeof fmt === 'string' && ['V','VI','VII','VIII'].includes(fmt)) ? fmt : (editorState && editorState.std) || 'V';
+  // If first arg is a format string, use editorState; if it's a std code, use it as std (backward compat)
+  let realFmt = fmt;
+  if (['V','VI','VII','VIII'].includes(fmt)) { realFmt = 'pdf'; } // old callers passed std — default to pdf
+
+  const bank = STD_QUESTION_BANKS[std];
+  if (!bank) { showToast('⚠️ No question bank for Std ' + std, '#ff6f00'); return; }
+
+  // Close dropdown if open
+  const menu = document.getElementById('qa-dl-menu');
+  if (menu) menu.style.display = 'none';
+
+  const KEYS = ['A','B','C','D'];
+  const dt   = new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'});
+  const secs = [
+    { key:'mcq',       label:'Section 1 – MCQ',                icon:'[MCQ]',        secNum:1 },
+    { key:'trueFalse', label:'Section 2 – True / False',       icon:'[T/F]',        secNum:2 },
+    { key:'match',     label:'Section 3 – Match the Following', icon:'[MATCH]',      secNum:3 },
+    { key:'answer',    label:'Section 4 – Full Forms',          icon:'[FULL FORM]',  secNum:4 },
+  ];
+  const totals    = secs.map(s => (bank[s.key]||[]).length);
+  const grandTotal = totals.reduce((a,b)=>a+b,0);
+
+  // ═══════════════════════════════════════
+  // FORMAT 1: PLAIN TEXT (Notepad)
+  // ═══════════════════════════════════════
+  if (realFmt === 'txt') {
+    const LINE = '='.repeat(62);
+    const line = '-'.repeat(62);
+    let txt = LINE + '\n';
+    txt += '  ICT EXAM SYSTEM — QUESTION BANK REPORT\n';
+    txt += '  Standard: ' + std + '     Date: ' + dt + '\n';
+    txt += '  Total Questions: ' + grandTotal + '\n';
+    txt += LINE + '\n\n';
+
+    secs.forEach((sec, si) => {
+      const items = bank[sec.key] || [];
+      if (!items.length) return;
+      txt += line + '\n';
+      txt += '  ' + sec.label.toUpperCase() + '  (' + items.length + ' questions)\n';
+      txt += line + '\n';
+      items.forEach((q, qi) => {
+        txt += '\nQ' + (qi+1) + '. ';
+        if (sec.key === 'trueFalse') {
+          txt += (q.q || '') + '\n';
+          txt += '    Answer: ' + (q.ans ? 'TRUE' : 'FALSE') + '\n';
+        } else if (sec.key === 'match') {
+          txt += (q.a || '') + '\n';
+          txt += '    Answer: ' + (q.b || '') + '\n';
+        } else {
+          txt += (q.q || '') + '\n';
+          (q.opts || []).forEach((opt, oi) => {
+            const mark = (q.ans === oi) ? ' ✓' : '';
+            txt += '    ' + KEYS[oi] + ') ' + opt + mark + '\n';
+          });
+          if (typeof q.ans === 'number' && (q.opts||[])[q.ans]) {
+            txt += '    Answer: ' + KEYS[q.ans] + ') ' + q.opts[q.ans] + '\n';
+          }
+        }
+      });
+      txt += '\n';
+    });
+
+    txt += LINE + '\n';
+    txt += '  END OF REPORT — Standard ' + std + ' — ' + grandTotal + ' questions\n';
+    txt += LINE + '\n';
+
+    const blob = new Blob([txt], { type: 'text/plain; charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+    const a    = Object.assign(document.createElement('a'), { href:url, download:'QA_Std'+std+'_Report.txt' });
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    showToast('📄 TXT downloaded — open with Notepad', 'linear-gradient(135deg,#455a64,#607d8b)', 3500);
+    return;
+  }
+
+  // ═══════════════════════════════════════
+  // FORMAT 2: WORD DOC
+  // ═══════════════════════════════════════
+  if (realFmt === 'doc') {
+    const STDC = { V:'#0d47a1', VI:'#6a1b9a', VII:'#e65100', VIII:'#1b5e20' };
+    const color = STDC[std] || '#1a237e';
+    let doc = `<html xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:w="urn:schemas-microsoft-com:office:word"
+  xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="UTF-8">
+<style>
+body{font-family:Calibri,sans-serif;font-size:11pt;margin:2cm;}
+h1{font-size:18pt;color:${color};text-align:center;margin-bottom:4pt;}
+.sub{text-align:center;color:#555;font-size:9pt;margin-bottom:18pt;}
+.summary-table{width:100%;border-collapse:collapse;margin-bottom:16pt;}
+.summary-table td{border:1pt solid #c5cae9;padding:5pt 10pt;text-align:center;}
+.summary-table th{background:${color};color:#fff;padding:6pt 10pt;font-size:10pt;}
+.sec-hdr{font-size:13pt;font-weight:bold;color:${color};border-bottom:2pt solid ${color};
+  margin-top:18pt;margin-bottom:8pt;padding-bottom:3pt;}
+.q-block{margin-bottom:10pt;border:1pt solid #e8eaf6;border-radius:4pt;padding:8pt 10pt;}
+.q-num{display:inline-block;background:${color};color:#fff;border-radius:3pt;
+  padding:1pt 6pt;font-size:9pt;font-weight:bold;margin-right:6pt;}
+.q-text{font-weight:bold;font-size:10.5pt;}
+.opts-table{width:100%;border-collapse:collapse;margin-top:4pt;}
+.opts-table td{padding:2pt 8pt;font-size:10pt;}
+.correct-opt{color:#1b5e20;font-weight:bold;background:#e8f5e9;}
+.ans-row{margin-top:5pt;background:#e8f5e9;border:1pt solid #00c853;
+  border-radius:3pt;padding:3pt 8pt;font-size:9.5pt;font-weight:bold;color:#1b5e20;}
+.tf-true{color:#0d47a1;font-weight:bold;}
+.tf-false{color:#b71c1c;font-weight:bold;}
+.match-a{font-weight:bold;}
+.match-b{color:#1b5e20;font-weight:bold;}
+.footer{text-align:center;font-size:8pt;color:#9e9e9e;margin-top:24pt;
+  border-top:1pt solid #eee;padding-top:6pt;}
+</style></head><body>
+<h1>📚 Question Bank Report — Standard ${std}</h1>
+<div class="sub">ICT Exam System &nbsp;·&nbsp; ${dt} &nbsp;·&nbsp; ${grandTotal} total questions</div>
+<table class="summary-table">
+<tr><th>Section</th><th>MCQ</th><th>True/False</th><th>Match</th><th>Full Form</th><th>Total</th></tr>
+<tr>
+  <td>Standard ${std}</td>
+  <td><b>${totals[0]}</b></td><td><b>${totals[1]}</b></td>
+  <td><b>${totals[2]}</b></td><td><b>${totals[3]}</b></td>
+  <td><b>${grandTotal}</b></td>
+</tr>
+</table>`;
+
+    secs.forEach((sec, si) => {
+      const items = bank[sec.key] || [];
+      if (!items.length) return;
+      doc += `<div class="sec-hdr">${sec.label} &nbsp; (${items.length} questions)</div>`;
+      items.forEach((q, qi) => {
+        doc += `<div class="q-block">
+<span class="q-num">Q${qi+1}</span>`;
+        if (sec.key === 'trueFalse') {
+          doc += `<span class="q-text">${q.q||''}</span><br>
+<div style="margin-top:5pt;">
+  <span class="${q.ans===true?'tf-true':''}">⬛ True</span> &nbsp;&nbsp;
+  <span class="${q.ans===false?'tf-false':''}">⬛ False</span>
+</div>
+<div class="ans-row">✅ Answer: ${q.ans ? 'TRUE' : 'FALSE'}</div>`;
+        } else if (sec.key === 'match') {
+          doc += `<span class="q-text match-a">${q.a||''}</span>
+<div style="margin-top:4pt;">→ <span class="match-b">✅ ${q.b||''}</span></div>`;
+        } else {
+          doc += `<span class="q-text">${q.q||''}</span>
+<table class="opts-table">`;
+          (q.opts||[]).forEach((opt,oi) => {
+            const isC = (q.ans === oi);
+            doc += `<tr class="${isC?'correct-opt':''}"><td>${KEYS[oi]})</td><td>${isC?'✅ ':''} ${opt}</td></tr>`;
+          });
+          doc += `</table>`;
+          if (typeof q.ans === 'number' && (q.opts||[])[q.ans]) {
+            doc += `<div class="ans-row">✅ Correct Answer: ${KEYS[q.ans]}) ${q.opts[q.ans]}</div>`;
+          }
+        }
+        doc += `</div>`;
+      });
+    });
+
+    doc += `<div class="footer">ICT Exam System — Std ${std} Question Bank — ${grandTotal} questions — ${dt}</div>
+</body></html>`;
+
+    const blob = new Blob([doc], { type: 'application/msword; charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+    const a    = Object.assign(document.createElement('a'), { href:url, download:'QA_Std'+std+'_Report.doc' });
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    showToast('📝 Word Doc downloaded!', 'linear-gradient(135deg,#1565c0,#1976d2)', 3500);
+    return;
+  }
+
+  // ═══════════════════════════════════════
+  // FORMAT 3: PDF (print-ready HTML)
+  // ═══════════════════════════════════════
+  const STDC  = { V:'#0d47a1', VI:'#6a1b9a', VII:'#e65100', VIII:'#1b5e20' };
+  const STDBG = { V:'#e3f2fd', VI:'#f3e5f5', VII:'#fff8e1', VIII:'#e8f5e9' };
+  const color  = STDC[std] || '#1a237e';
+  const bg     = STDBG[std] || '#e8eaf6';
+  const SCOLORS = ['#3949ab','#00838f','#2e7d32','#e65100'];
+  const SBGS    = ['#e8eaf6','#e0f7fa','#e8f5e9','#fff3e0'];
+
+  let html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>Q&A Report Std ${std}</title>
+<style>
+@page{size:A4;margin:13mm 12mm;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Calibri,Arial,sans-serif;font-size:10.5pt;color:#111;background:#fff;line-height:1.5;}
+.hdr{background:${color};color:#fff;padding:16px 22px 14px;text-align:center;margin-bottom:12px;}
+.hdr h1{font-size:16pt;font-weight:900;margin-bottom:2px;}
+.hdr .sub{font-size:8.5pt;opacity:.85;}
+.sum-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;}
+.sum-card{background:${bg};border:1.5px solid ${color}44;border-radius:7px;padding:6px 14px;text-align:center;min-width:90px;}
+.sum-n{font-size:15pt;font-weight:900;color:${color};}
+.sum-l{font-size:7pt;color:#555;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+.sec-hdr{font-size:11pt;font-weight:900;padding:8px 12px;display:flex;justify-content:space-between;
+  align-items:center;margin-top:10px;}
+.sec-wrap{border:1.5px solid #e0e3f0;border-radius:0 0 9px 9px;margin-bottom:4px;}
+.q-row{padding:8px 12px;border-bottom:1px solid #f0f0f0;display:flex;gap:8px;align-items:flex-start;}
+.q-row:last-child{border-bottom:none;}
+.q-num{min-width:20px;height:20px;border-radius:4px;font-size:7.5pt;font-weight:900;
+  display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;margin-top:1px;}
+.q-body{flex:1;}
+.q-text{font-weight:700;font-size:10pt;margin-bottom:4px;}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;margin-top:3px;}
+.opt{font-size:9pt;padding:1px 0;}
+.opt-c{color:#1b5e20;font-weight:900;}
+.opt-n{color:#777;}
+.ans{display:inline-block;background:#e8f5e9;border:1.5px solid #00c853;color:#1b5e20;
+  border-radius:5px;padding:1px 9px;font-size:8pt;font-weight:900;margin-top:3px;}
+.tf-opts{display:flex;gap:10px;margin-top:3px;}
+.tf-pill{padding:2px 12px;border-radius:5px;font-size:9pt;font-weight:700;border:1.5px solid #ddd;}
+.tf-c{background:#e8f5e9;border-color:#00c853;color:#1b5e20;}
+.tf-n{color:#aaa;}
+.match-pair{display:flex;align-items:center;gap:8px;font-size:9.5pt;margin-top:2px;}
+.ma{font-weight:700;flex:1;}
+.mb{font-weight:900;color:#1b5e20;flex:1;}
+.footer{text-align:center;font-size:7.5pt;color:#aaa;margin-top:12px;
+  border-top:1px solid #eee;padding-top:6px;}
+.print-btn{position:fixed;bottom:20px;right:20px;background:${color};color:#fff;
+  border:none;border-radius:12px;padding:12px 22px;font-size:14pt;font-weight:900;
+  cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:999;}
+@media print{.print-btn{display:none;}@page{margin:12mm;}}
+</style></head><body>
+<button class="print-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+<div class="hdr">
+  <h1>📚 Q&amp;A Report — Standard ${std}</h1>
+  <div class="sub">ICT Exam System &nbsp;·&nbsp; ${dt} &nbsp;·&nbsp; ${grandTotal} questions</div>
+</div>
+<div class="sum-row">
+  <div class="sum-card"><div class="sum-n">${grandTotal}</div><div class="sum-l">Total</div></div>`;
+
+  secs.forEach((s2,i) => {
+    html += `<div class="sum-card"><div class="sum-n" style="color:${SCOLORS[i]};">${totals[i]}</div><div class="sum-l">${['MCQ','T/F','Match','Full Form'][i]}</div></div>`;
+  });
+  html += `</div>`;
+
+  secs.forEach((sec, si) => {
+    const items = bank[sec.key] || [];
+    if (!items.length) return;
+    const sc = SCOLORS[si], sb = SBGS[si];
+    html += `<div class="sec-hdr" style="background:${sb};color:${sc};border-radius:9px 9px 0 0;border:1.5px solid ${sc}44;">${['📝','✅','🔗','💡'][si]} ${sec.label}<span style="font-size:8.5pt;opacity:.75;">${items.length} questions</span></div><div class="sec-wrap">`;
+
+    items.forEach((q, qi) => {
+      html += `<div class="q-row"><div class="q-num" style="background:${sc};">${qi+1}</div><div class="q-body">`;
+
+      if (sec.key === 'trueFalse') {
+        html += `<div class="q-text">${q.q||''}</div>
+<div class="tf-opts">
+  <div class="tf-pill ${q.ans===true?'tf-c':'tf-n'}">True</div>
+  <div class="tf-pill ${q.ans===false?'tf-c':'tf-n'}">False</div>
+</div>
+<div class="ans">✅ Answer: ${q.ans?'True':'False'}</div>`;
+      } else if (sec.key === 'match') {
+        html += `<div class="match-pair"><div class="ma">${q.a||''}</div><div style="color:#9e9e9e;">→</div><div class="mb">✅ ${q.b||''}</div></div>`;
+      } else {
+        html += `<div class="q-text">${q.q||''}</div><div class="opts">`;
+        (q.opts||[]).forEach((opt,oi) => {
+          const isc = (q.ans===oi);
+          html += `<div class="opt ${isc?'opt-c':'opt-n'}">${KEYS[oi]}) ${isc?'✅ ':''}${opt}</div>`;
+        });
+        html += `</div>`;
+        if (typeof q.ans==='number' && (q.opts||[])[q.ans]) {
+          html += `<div class="ans">✅ ${KEYS[q.ans]}) ${q.opts[q.ans]}</div>`;
+        }
+      }
+      html += `</div></div>`;
+    });
+    html += `</div>`;
+  });
+
+  html += `<div class="footer">ICT Exam System — Std ${std} — ${grandTotal} Questions — ${dt}</div>
+<scr\ipt>window.onload=function(){setTimeout(function(){window.print();},900);};<\/script>
+</body></html>`;
+
+  const blob = new Blob([html], { type: 'text/html; charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const win  = window.open(url, '_blank');
+  if (!win) {
+    const a = Object.assign(document.createElement('a'), { href:url, download:'QA_Std'+std+'_Report.html' });
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    showToast('📥 Saved as HTML — open & print to get PDF', '#1565c0', 4500);
+  } else {
+    showToast('📕 PDF report opened — click the Print button or use Ctrl+P', 'linear-gradient(135deg,#b71c1c,#c62828)', 4000);
+  }
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+
+// ── DOWNLOAD ALL 4 STANDARDS ──────────────────────────────────
+function downloadAllQAReports(fmt) {
+  const f = fmt || 'pdf';
+  ['V','VI','VII','VIII'].forEach((std,i) => {
+    setTimeout(() => {
+      editorState.std = std;
+      downloadQAReport(f);
+    }, i * 700);
+  });
+  showToast('📥 Downloading all 4 standards as ' + f.toUpperCase() + '…', 'linear-gradient(135deg,#1a237e,#3949ab)', 3000);
+}
+
 function goToTeacherLogin() { showPage('page-teacher-login'); }
 
 // ════════════════════════════════════════════════════════════
@@ -4521,8 +5094,8 @@ function showDashSection(sec) {
               display:flex;align-items:center;gap:5px;">
               <span>🟢</span> Connected
             </div>`
-          : `<div style="background:#fff8e1;border:2px solid #ff8f00;border-radius:99px;
-              padding:4px 14px;font-size:.74rem;font-weight:900;color:#e65100;
+          : `<div style="background:#ffebee;border:2px solid #ff1744;border-radius:99px;
+              padding:4px 14px;font-size:.74rem;font-weight:900;color:#b71c1c;
               display:flex;align-items:center;gap:5px;">
               <span>🔴</span> Not Connected
             </div>`;
@@ -4531,14 +5104,14 @@ function showDashSection(sec) {
 
     <div id="sheets-card-body" style="padding:18px 20px;">
     ${(()=>{
-      const u = localStorage.getItem('ict_sheets_url')||'';
+      const u = getSheetUrl();   // always returns a URL (never empty)
       const verified = localStorage.getItem('ict_sheets_verified')==='1';
 
       /* ══════════════════════════════════════════════
          STATE A: CONNECTED — show green panel only
          No form, no buttons — just status + disconnect
          ══════════════════════════════════════════════ */
-      if (verified && u && u !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+      if (verified) {
         return `
         <!-- ✅ CONNECTED STATE -->
         <div style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:2px solid #a5d6a7;
@@ -4641,6 +5214,178 @@ function showDashSection(sec) {
         <!-- Test result box -->
         <div id="sheets-test-result" style="display:none;margin-top:12px;border-radius:10px;
           padding:12px 14px;font-size:.84rem;font-weight:800;"></div>`;
+    })()}
+    </div>
+  </div>
+
+
+  <!-- ── SECTION: Question Bank Sync (Google Sheets) ──────── -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(26,35,126,.1);
+    overflow:hidden;margin-bottom:16px;">
+    <div style="background:linear-gradient(90deg,#e8f5e9,#f5f7ff);padding:14px 20px;
+      border-bottom:2px solid #e8eaf6;
+      display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:1.3rem;">📋</span>
+        <div>
+          <div style="font-weight:900;color:var(--text);">Question Bank Sync</div>
+          <div style="font-size:.74rem;color:var(--muted);font-weight:700;">
+            Add questions once → auto-syncs to every device via Google Sheets
+          </div>
+        </div>
+      </div>
+      ${(()=>{
+        const v   = localStorage.getItem('ict_sheets_verified') === '1';
+        const lp  = localStorage.getItem('ict_qsync_last_push');
+        return v
+          ? '<div style="background:#e8f5e9;border:2px solid #00c853;border-radius:99px;padding:4px 14px;font-size:.74rem;font-weight:900;color:#1b5e20;display:flex;align-items:center;gap:5px;"><span>🟢</span> Sync Active</div>'
+          : '<div style="background:#fff8e1;border:2px solid #ff8f00;border-radius:99px;padding:4px 14px;font-size:.74rem;font-weight:900;color:#e65100;display:flex;align-items:center;gap:5px;"><span>🟡</span> Connect Sheets First</div>';
+      })()}
+    </div>
+
+    <div style="padding:18px 20px;" id="qsync-card-body">
+    ${(()=>{
+      const v       = localStorage.getItem('ict_sheets_verified') === '1';
+      const lastPush= localStorage.getItem('ict_qsync_last_push');
+      const lastPull= localStorage.getItem('ict_qsync_last_pull');
+      const fmt     = t => t ? new Date(t).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : 'Never';
+
+      if (v) {
+        return `
+        <!-- ✅ CONNECTED STATE -->
+        <div style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:2px solid #a5d6a7;
+          border-radius:14px;padding:18px 20px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap;">
+            <div style="font-size:2.2rem;">📋</div>
+            <div style="flex:1;">
+              <div style="font-weight:900;font-size:1rem;color:#1b5e20;">Question Sync Active</div>
+              <div style="font-size:.78rem;color:#2e7d32;font-weight:700;margin-top:2px;">
+                Every question you add or edit is automatically saved to Google Sheets.<br>
+                All other devices pull the latest questions on startup — no action needed.
+              </div>
+            </div>
+          </div>
+
+          <!-- Sync stats -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+            <div style="background:rgba(255,255,255,.8);border-radius:10px;padding:10px 14px;border:1.5px solid #a5d6a7;">
+              <div style="font-size:.68rem;color:#388e3c;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;">⬆️ Last Push</div>
+              <div style="font-weight:900;font-size:.88rem;color:#1b5e20;">${fmt(lastPush)}</div>
+            </div>
+            <div style="background:rgba(255,255,255,.8);border-radius:10px;padding:10px 14px;border:1.5px solid #a5d6a7;">
+              <div style="font-size:.68rem;color:#388e3c;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;">⬇️ Last Pull</div>
+              <div style="font-weight:900;font-size:.88rem;color:#1b5e20;">${fmt(lastPull)}</div>
+            </div>
+          </div>
+
+          <!-- How it works banner -->
+          <div style="background:rgba(255,255,255,.6);border-radius:10px;padding:11px 14px;
+            margin-bottom:16px;font-size:.78rem;color:#2e7d32;font-weight:700;line-height:1.7;">
+            🔄 <strong>Flow:</strong> Add question on this device
+            → auto-saved to Google Sheet → other devices load page → get latest questions automatically
+          </div>
+
+          <!-- Action buttons -->
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button id="qsync-pull-btn" onclick="sheetsPullManual()"
+              style="padding:10px 20px;border-radius:10px;border:none;
+                background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;
+                font-family:inherit;font-weight:900;font-size:.86rem;cursor:pointer;
+                box-shadow:0 3px 10px rgba(27,94,32,.3);">
+              ⬇️ Pull Questions Now
+            </button>
+            <button id="qsync-push-btn" onclick="sheetsPushManual()"
+              style="padding:10px 20px;border-radius:10px;border:2px solid #2e7d32;
+                background:#fff;color:#1b5e20;
+                font-family:inherit;font-weight:900;font-size:.86rem;cursor:pointer;">
+              ⬆️ Push Questions Now
+            </button>
+          </div>
+        </div>
+
+        <!-- Script update notice -->
+        <div style="background:#fff3e0;border-left:4px solid #ff8f00;border-radius:8px;
+          padding:12px 14px;font-size:.8rem;color:#e65100;font-weight:700;line-height:1.7;">
+          ⚠️ <strong>Important:</strong> Your Apps Script must be updated to support question sync.
+          <details style="margin-top:6px;cursor:pointer;">
+            <summary style="font-weight:900;color:#bf360c;font-size:.79rem;">▶ Show Updated Apps Script Code</summary>
+            <pre style="background:#1a237e;color:#e8eaf6;border-radius:8px;padding:12px;margin-top:8px;
+              font-size:.7rem;overflow-x:auto;white-space:pre-wrap;line-height:1.5;">function doPost(e) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var d  = JSON.parse(e.postData.contents);
+
+  // ── Question Bank Sync ──────────────────────────────────
+  if (d.action === 'saveQuestions') {
+    var qSheet = ss.getSheetByName('QuestionBanks') ||
+                 ss.insertSheet('QuestionBanks');
+    qSheet.clearContents();
+    qSheet.getRange(1,1).setValue(JSON.stringify({
+      banks: d.banks,
+      examControl: d.examControl,
+      savedAt: d.savedAt
+    }));
+    return ContentService
+      .createTextOutput('OK')
+      .setMimeType(ContentService.MimeType.TEXT);
+  }
+
+  // ── Exam Results ────────────────────────────────────────
+  var s = ss.getSheetByName('Results') || ss.getActiveSheet();
+  if (s.getLastRow() === 0) {
+    s.appendRow(['Name','Roll','Std','Div','Subject','Mobile',
+                 'MCQ','T/F','Match','FullForm','Total','MaxMarks','Pct','Grade','Date']);
+  }
+  s.appendRow([d.name,d.roll,d.std,d.div,d.subject||'ICT',d.mobile,
+               d.mcq||0,d.trueFalse||0,d.match||0,d.answer||0,
+               d.total||0,d.maxMarks||40,d.pct||0,d.grade||'',
+               new Date().toLocaleString()]);
+  return ContentService
+    .createTextOutput('OK')
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+
+function doGet(e) {
+  // ── Read Question Banks (public, no auth needed) ────────
+  if (e.parameter.action === 'getQuestions') {
+    var ss     = SpreadsheetApp.getActiveSpreadsheet();
+    var qSheet = ss.getSheetByName('QuestionBanks');
+    if (!qSheet || qSheet.getLastRow() === 0) {
+      return ContentService
+        .createTextOutput(JSON.stringify({banks:null}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    var raw = qSheet.getRange(1,1).getValue();
+    return ContentService
+      .createTextOutput(raw)
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  return ContentService
+    .createTextOutput('ICT Exam System')
+    .setMimeType(ContentService.MimeType.TEXT);
+}</pre>
+            <div style="margin-top:8px;font-size:.78rem;color:#bf360c;font-weight:800;line-height:1.6;">
+              📋 Steps: Open Apps Script → Replace ALL code with above → Save →
+              Deploy → <strong>New Deployment</strong> → Web App → Access: <strong>Anyone</strong> → Copy new URL → paste in Google Sheets settings above → Save &amp; Connect
+            </div>
+          </details>
+        </div>`;
+      }
+
+      /* ── NOT CONNECTED ── */
+      return `
+        <div style="background:#fff8e1;border-left:4px solid #ff8f00;border-radius:8px;
+          padding:12px 14px;margin-bottom:16px;font-size:.83rem;color:#e65100;font-weight:800;">
+          ⚠️ Connect Google Sheets first (see section above) — then question sync activates automatically.
+        </div>
+        <div style="background:#f5f7ff;border-radius:12px;padding:14px 16px;
+          font-size:.8rem;color:#3949ab;font-weight:700;line-height:1.8;">
+          <strong>How question sync works once connected:</strong><br>
+          ✅ Add/edit any question → instantly saved to Google Sheet<br>
+          ✅ Open site on any PC, phone, or tablet → gets latest questions<br>
+          ✅ Students always see the most recent exam questions<br>
+          ✅ No GitHub, no extra accounts, no extra setup<br>
+          ✅ Uses the same Apps Script URL you already configured
+        </div>`;
     })()}
     </div>
   </div>
@@ -4838,7 +5583,7 @@ function renderExamControl() {
               border-radius:99px;padding:1px 8px;font-weight:900;">🟢 ACTIVE</span>
           </div>
           <div style="font-size:.7rem;color:${col.t};font-weight:700;opacity:.8;">
-            ${(()=>{const ss=actP.settings||{mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+            ${(()=>{const ss=actP.settings||{mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
             return `MCQ:${Math.min(ss.mcqShow,actP.sections.mcq.length)}/${actP.sections.mcq.length} · T/F:${Math.min(ss.tfShow,actP.sections.trueFalse.length)}/${actP.sections.trueFalse.length} · Match:${Math.min(ss.matchShow,actP.sections.match.length)}/${actP.sections.match.length} · FF:${Math.min(ss.ansShow,actP.sections.answer.length)}/${actP.sections.answer.length}`})()}
             · 🔀 shuffled
           </div>
@@ -5255,6 +6000,34 @@ function renderQuestionEditor(std, section) {
         <button class="btn btn-sm" style="background:linear-gradient(135deg,#00c853,#00e676);
           color:#fff;border:none;box-shadow:0 4px 12px rgba(0,200,83,.4);animation:float 3s ease infinite;"
           onclick="qedSaveAll()">💾 Save All</button>
+        <div style="position:relative;display:inline-block;">
+          <button class="btn btn-sm" id="qa-dl-btn"
+            style="background:linear-gradient(135deg,#e65100,#ff6f00);color:#fff;
+              border:none;box-shadow:0 4px 12px rgba(230,81,0,.4);display:flex;
+              align-items:center;gap:5px;"
+            onclick="toggleQAMenu()">📥 Download Q&A ▾</button>
+          <div id="qa-dl-menu" style="display:none;position:absolute;top:calc(100% + 6px);right:0;
+            background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.18);
+            border:1.5px solid #e8eaf6;z-index:9999;min-width:170px;overflow:hidden;">
+            <div onclick="downloadQAReport('txt')" style="padding:11px 16px;cursor:pointer;
+              display:flex;align-items:center;gap:10px;font-weight:800;font-size:.85rem;
+              color:#333;transition:background .15s;"
+              onmouseover="this.style.background='#f5f7ff'" onmouseout="this.style.background=''"
+            >📄 Notepad (.txt)</div>
+            <div style="border-top:1px solid #f0f0f0;"></div>
+            <div onclick="downloadQAReport('doc')" style="padding:11px 16px;cursor:pointer;
+              display:flex;align-items:center;gap:10px;font-weight:800;font-size:.85rem;
+              color:#333;transition:background .15s;"
+              onmouseover="this.style.background='#f5f7ff'" onmouseout="this.style.background=''"
+            >📝 Word Doc (.doc)</div>
+            <div style="border-top:1px solid #f0f0f0;"></div>
+            <div onclick="downloadQAReport('pdf')" style="padding:11px 16px;cursor:pointer;
+              display:flex;align-items:center;gap:10px;font-weight:800;font-size:.85rem;
+              color:#333;transition:background .15s;"
+              onmouseover="this.style.background='#f5f7ff'" onmouseout="this.style.background=''"
+            >📕 PDF (Print)</div>
+          </div>
+        </div>
         <button class="btn btn-sm" style="background:rgba(255,111,0,.9);color:#fff;border:none;
           box-shadow:0 4px 12px rgba(255,111,0,.4);" onclick="qedAddQuestion()">➕ Add Question</button>
         <button class="btn btn-sm" style="background:rgba(255,23,68,.3);color:#fff;
@@ -5972,14 +6745,14 @@ function _openPdfInFrame(htmlContent, title) {
   setTimeout(() => URL.revokeObjectURL(blobUrl), 300000);
 }
 
-function showToast(msg,bg) {
+function showToast(msg,bg,dur) {
   clearTimeout(_toastTimer);
   let t=document.getElementById('save-toast-el');
   if(!t){t=document.createElement('div');t.id='save-toast-el';document.body.appendChild(t);}
   t.className='save-toast';
   t.style.background=bg||'linear-gradient(135deg,#00c853,#00e676)';
   t.innerHTML=msg;
-  _toastTimer=setTimeout(()=>{if(t&&t.parentNode)t.remove();},2800);
+  _toastTimer=setTimeout(()=>{if(t&&t.parentNode)t.remove();},(dur||2800));
 }
 
 // ── SETTINGS FUNCTIONS ─────────────────────────────────────────
@@ -6283,9 +7056,14 @@ function saveSheetsUrl() {
   if (url && !url.startsWith('https://script.google.com')) {
     showToast('⚠️ URL must start with https://script.google.com','#ff6f00'); return false;
   }
-  const prevUrl = localStorage.getItem('ict_sheets_url') || '';
-  localStorage.setItem('ict_sheets_url', url || '');
-  if (url !== prevUrl) localStorage.removeItem('ict_sheets_verified');
+  const prevUrl = getSheetUrl();  // use getSheetUrl() not raw localStorage
+  if (url) {
+    localStorage.setItem('ict_sheets_url', url);
+    // Only wipe verified if user actually changed the URL to something different
+    if (url.trim() !== prevUrl.trim()) {
+      localStorage.removeItem('ict_sheets_verified');
+    }
+  }
   return true;
 }
 
@@ -6311,15 +7089,12 @@ async function saveAndTestSheets() {
 }
 
 async function testSheetsConnection() {
-  // Read URL from input if present — save directly to avoid clearing verified flag via saveSheetsUrl()
+  // If the setup form is visible and user typed a URL, save it first
   const inputEl = document.getElementById('set-sheets-url');
   const inputVal = inputEl?.value?.trim();
-  if (inputVal) {
-    const stored = localStorage.getItem('ict_sheets_url') || '';
-    if (inputVal !== stored) {
-      localStorage.setItem('ict_sheets_url', inputVal);
-      localStorage.removeItem('ict_sheets_verified');
-    }
+  if (inputVal && inputVal !== getSheetUrl()) {
+    localStorage.setItem('ict_sheets_url', inputVal);
+    localStorage.removeItem('ict_sheets_verified');
   }
 
   const url = getSheetUrl();
@@ -6443,7 +7218,7 @@ function importSystemData(input) {
       const data = JSON.parse(e.target.result);
       if (!data.version) throw new Error('Invalid backup file');
       const keys = ['ict_std_banks','ict_paper_lib','ict_active_papers','ict_exam_control',
-                    'ict_results','ict_accounts','ict_login_log','ict_teacher_creds','ict_sheets_url','ict_sheets_verified'];
+                    'ict_results','ict_accounts','ict_login_log','ict_teacher_creds','ict_sheets_url','ict_sheets_verified','ict_qsync_last_push','ict_qsync_last_pull'];
       keys.forEach(k => { if (data[k]) localStorage.setItem(k, data[k]); });
       // Reload in-memory state
       STD_QUESTION_BANKS = loadStdBanks();
@@ -6483,7 +7258,7 @@ function settingsResetBanks() {
 function settingsResetAll() {
   _settingsDanger('💥 FULL RESET: This will delete ALL data including results, question banks, papers, and settings. This cannot be undone!', () => {
     ['ict_std_banks','ict_paper_lib','ict_active_papers','ict_exam_control',
-     'ict_results','ict_accounts','ict_login_log','ict_teacher_creds','ict_sheets_url','ict_sheets_verified'].forEach(k => localStorage.removeItem(k));
+     'ict_results','ict_accounts','ict_login_log','ict_teacher_creds','ict_sheets_url','ict_sheets_verified','ict_qsync_last_push','ict_qsync_last_pull'].forEach(k => localStorage.removeItem(k));
     STD_QUESTION_BANKS = loadStdBanks();
     EXAM_CONTROL = loadExamControl();
     PAPER_LIBRARY = loadPaperLibrary();
@@ -6621,7 +7396,7 @@ ${actP?`
         <span style="font-size:.6rem;background:#00c853;color:#fff;border-radius:99px;padding:1px 8px;font-weight:900;margin-left:4px;">ACTIVE</span>
       </div>
       <div style="font-size:.7rem;color:#388e3c;font-weight:700;margin-top:2px;">
-        ${(()=>{const ss=actP.settings||{mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+        ${(()=>{const ss=actP.settings||{mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
         return `MCQ:${Math.min(ss.mcqShow,actP.sections.mcq.length)}/${actP.sections.mcq.length} T/F:${Math.min(ss.tfShow,actP.sections.trueFalse.length)}/${actP.sections.trueFalse.length} Match:${Math.min(ss.matchShow,actP.sections.match.length)}/${actP.sections.match.length} FF:${Math.min(ss.ansShow,actP.sections.answer.length)}/${actP.sections.answer.length} 🔀`})()}
       </div>
     </div>
@@ -6702,7 +7477,7 @@ function _plGrid(papers,actId,s){
   return `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:11px;">
   ${papers.map((p,pi)=>{
     const isAct=actId===p.id;
-    const ss=p.settings||{mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+    const ss=p.settings||{mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
     const tQ=p.sections.mcq.length+p.sections.trueFalse.length+p.sections.match.length+p.sections.answer.length;
     const dt=p.createdAt?new Date(p.createdAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'}):'—';
     return `
@@ -6791,7 +7566,7 @@ function plOpenDetail(paperId){
   if(!paper){renderPaperLibrary();return;}
   const s=paper.std, col=_PC[s];
   const isAct=ACTIVE_PAPERS[s]===paperId;
-  const ss=paper.settings||{mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+  const ss=paper.settings||{mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
 
   const SECS=[
     {key:'mcq',       label:'MCQ',       icon:'📝',color:'#3949ab',sk:'mcqShow'  },
@@ -7011,7 +7786,7 @@ ${SECS.map((si,si_i)=>{
 // ── SHOW COUNT ──
 function plAdjShow(pid,sk,d){
   const p=PAPER_LIBRARY.find(x=>x.id===pid);if(!p)return;
-  if(!p.settings)p.settings={mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+  if(!p.settings)p.settings={mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
   const secMap={mcqShow:'mcq',tfShow:'trueFalse',matchShow:'match',ansShow:'answer'};
   const max=Math.max(1,p.sections[secMap[sk]]?.length||1);
   p.settings[sk]=Math.max(1,Math.min(max,(p.settings[sk]||10)+d));
@@ -7021,7 +7796,7 @@ function plAdjShow(pid,sk,d){
 }
 function plSaveShow(pid,sk,val){
   const p=PAPER_LIBRARY.find(x=>x.id===pid);if(!p)return;
-  if(!p.settings)p.settings={mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+  if(!p.settings)p.settings={mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
   const secMap={mcqShow:'mcq',tfShow:'trueFalse',matchShow:'match',ansShow:'answer'};
   const max=Math.max(1,p.sections[secMap[sk]]?.length||1);
   p.settings[sk]=Math.max(1,Math.min(max,parseInt(val)||1));
@@ -7029,7 +7804,7 @@ function plSaveShow(pid,sk,val){
 }
 function plSaveAllShow(pid){
   const p=PAPER_LIBRARY.find(x=>x.id===pid);if(!p)return;
-  if(!p.settings)p.settings={mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+  if(!p.settings)p.settings={mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
   ['mcqShow','tfShow','matchShow','ansShow'].forEach(sk=>{
     const el=document.getElementById(`plsv-${sk}`);if(!el)return;
     const secMap={mcqShow:'mcq',tfShow:'trueFalse',matchShow:'match',ansShow:'answer'};
@@ -7051,7 +7826,7 @@ function plImportFromBank(pid,sec){
     const dup=p.sections[sec].some(x=>sec==='match'?x.a===q.a:x.q===q.q);
     if(!dup){p.sections[sec].push(JSON.parse(JSON.stringify(q)));added++;}
   });
-  if(!p.settings)p.settings={mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+  if(!p.settings)p.settings={mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
   const sk={mcq:'mcqShow',trueFalse:'tfShow',match:'matchShow',answer:'ansShow'}[sec];
   if(!(p.settings[sk]>0))p.settings[sk]=Math.min(10,p.sections[sec].length);
   savePaperLibrary();
@@ -7070,7 +7845,7 @@ function plAddBlank(pid,sec){
 function plRemoveQ(pid,sec,qi){
   const p=PAPER_LIBRARY.find(x=>x.id===pid);if(!p)return;
   p.sections[sec].splice(qi,1);
-  if(!p.settings)p.settings={mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+  if(!p.settings)p.settings={mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
   const sk={mcq:'mcqShow',trueFalse:'tfShow',match:'matchShow',answer:'ansShow'}[sec];
   if(p.settings[sk]>p.sections[sec].length)p.settings[sk]=Math.max(1,p.sections[sec].length||1);
   savePaperLibrary();
@@ -7677,7 +8452,7 @@ function renderPaperLibraryDashboard() {
   }
 
   function paperRow(paper, isAct, std) {
-    const ss = paper.settings || {mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+    const ss = paper.settings || {mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
     const tQ = paper.sections.mcq.length + paper.sections.trueFalse.length +
                paper.sections.match.length + paper.sections.answer.length;
     const srcC = paper.source==='ai'?'#6a1b9a':paper.source==='upload'?'#0d47a1':'#3949ab';
@@ -9473,7 +10248,7 @@ function _buildUploadPaperPanel() {
     html += '<div style="padding:10px 14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px;">';
     papers.forEach(function(paper) {
       const isAct = actId === paper.id;
-      const ss    = paper.settings || {mcqShow:10,tfShow:10,matchShow:10,ansShow:10};
+      const ss    = paper.settings || {mcqShow:15,tfShow:10,matchShow:5,ansShow:10};
       const pubB  = paper.published
         ? '<span style="font-size:.58rem;background:#e8f5e9;color:#1b5e20;border:1px solid #00c853;border-radius:99px;padding:1px 6px;font-weight:800;">✅</span>'
         : '<span style="font-size:.58rem;background:#fff3e0;color:#e65100;border:1px solid #ff6f00;border-radius:99px;padding:1px 6px;font-weight:800;">📝</span>';
@@ -10570,6 +11345,12 @@ window.addEventListener('load', () => {
     ls.style.opacity = '0';
     setTimeout(() => ls.style.display = 'none', 600);
   }, 2200);
+
+  // Auto-pull questions from Google Sheets on every page load (silent)
+  // ALL devices — teacher PCs, student PCs, phones — always get latest questions
+  sheetsPullQuestions(true).then(pulled => {
+    if (pulled) setTimeout(() => updateRegPatternGrid(), 150);
+  });
 
   // Populate exam pattern grid on initial page load
   setTimeout(() => updateRegPatternGrid(), 100);
